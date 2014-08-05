@@ -1,0 +1,551 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+
+  
+  
+  <title>Mailing list post regarding V364 / MOS 8706</title>
+</head>
+
+
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+
+
+
+<h1 style="text-align: center;">Mailing list post
+regarding V364 / MOS 8706</h1>
+
+<span style="font-family: monospace;">
+
+From: Richard Atkinson</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+Date: 2001-03-22 11:17:38 </span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+It's been a while since I posted to either list, but I have some news</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+which may be of interest to many of you. For the past month and a half I</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+have been in Austin, Texas working for a tech company and I took the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+opportunity to visit Bo Zimmerman.</span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+Bo and I worked on his V364 among other things and we took some
+recordings</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+of the speech chip words. The results are at www.zimmers.net on his V364</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+page. Whereas the Magic Voice has 235 words, the V364 has 261 words and
+a</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+modified version of Daniel Spiteri's Magic Voice word list is available
+on</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+Bo's site. The V364 has the same words as the Magic Voice (with the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+exception of 3 less duplications) and some extra words at the end,
+mainly</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+BASIC 3.5 function names. Some of them were nearly unintelligible, so we</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+were fortunate that the BASIC 'SAY "WORD"' construct also works. In this</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+way we were able to determine all of the uncertain words. Listen to 'go'</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+and 'hide', for example. Finally, 'grey' is replaced by 'pink' as the
+word</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+grey is not used in the 264 series colour palette (being a shade of
+white)</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+whereas pink is.</span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+The ROM has been on Funet for some time, thanks to Bo's efforts when he</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+first obtained the machine. It ought to be possible to get the Magic
+Voice</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+to say the extra words, using excerpts from the V364 speech ROM. The
+V364</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+speech hardware uses the same Toshiba PARCOR speech synth chip (T6721A,</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+datasheet on Funet) but a more integrated arrangement of glue</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+hardware. The speech ROM is in a socket to the left of the BASIC ROM and</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+it occupies slot 3 LOW in the ROM banking scheme. The empty socket to
+the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+left of that is for slot 3 HIGH. There is a single custom ASIC for the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+glue logic to the left of that, so the complete listing of V364 28 pin</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+chips from left to right in the line goes 8706R0 (custom ASIC), empty</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+(slot 3 HIGH), speech ROM (slot 3 LOW), BASIC ROM (slot 0 LOW), KERNAL
+ROM</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+(slot 0 HIGH), 3 PLUS 1 ROM (slot 1 LOW), 3 PLUS 1 ROM (slot 1 HIGH),
+PLA.</span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+This ASIC replaces the 6525 TIA, 40105 fifo and gate array inside the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+Magic Voice. It has four registers and banks in at $FD2x, which is the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+unused PLA decoded address range (function 0) on all other 264 series</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+machines. There are probably four mirrors of the ASIC registers; we did</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+not check for this functionality at the time. I took the opportunity to</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+obtain this ASIC's pinout, as a first step towards reverse-engineering
+the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+hardware and maybe one day making a speech attachment for a plus/4 out
+of</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+a modified Magic Voice. Here are the results of the investigation:</span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+U27 8706R0 (1284) Custom speech glue logic ASIC</span><br>
+
+
+
+<br>
+
+
+
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+
+
+
+  <tbody>
+
+
+
+    <tr>
+
+
+
+      <td>1 RESET# (cpu) </td>
+
+
+
+      <td> 28 +5V</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>2 IRQ# (cpu) </td>
+
+
+
+      <td> 27 D0 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>3 R/W# (cpu) </td>
+
+
+
+      <td> 26 D0 (t6721a)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>4 phi 0 (cpu) </td>
+
+
+
+      <td> 25 D1 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>5 $FD2x# (cpu) </td>
+
+
+
+      <td> 24 D1 (t6721a)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>6 A0 (cpu) </td>
+
+
+
+      <td> 23 D2 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>7 A1 (cpu) </td>
+
+
+
+      <td> 22 D2 (t6721a)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>8 ? ? </td>
+
+
+
+      <td> 21 D3 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>9 EOS# (t6721a) </td>
+
+
+
+      <td> 20 D3 (t6721a)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>10 APD (t6721a) </td>
+
+
+
+      <td> 19 D4 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>11 phi 2 (t6721a) </td>
+
+
+
+      <td> 18 D5 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>12 DI (t6721a) </td>
+
+
+
+      <td> 17 D6 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>13 DTRD (t6721a) </td>
+
+
+
+      <td> 16 D7 (cpu)</td>
+
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+
+      <td>14 GND </td>
+
+
+
+      <td> 15 WR# (t6721)</td>
+
+
+
+    </tr>
+
+
+
+  
+  
+  </tbody>
+</table>
+
+
+
+<br>
+
+<span style="font-family: monospace;">
+
+There was one pin which did not seem to be connected to anything else on</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+the V364 motherboard; pin 8. Whether this pin is NC internally or an</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+unused function I am not sure; multimeter testing of this pin on the</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+working V364 showed it constantly at 0V, but I cannot say for sure there</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+was no signal on it. In any case, any function it might have would be of</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+academic interest. The next phase of V364 hardware investigation will</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+involve oscilloscope and (hopefully) logic analyser testing, but this</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+could be a long time in the future.</span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+The next part of the overall project will start to determine what
+function</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+the bits of the 4 registers have; and hopefully come up with a way to</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+attach a Magic Voice (or parts of a Magic Voice) to another 264 series</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+machine in a V364 software-compatible way. This may be of interest to</span><br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+emulator authors. Has anyone tried the V364 ROM in an emulator recently?</span><br style="font-family: monospace;">
+
+
+
+<br style="font-family: monospace;">
+
+<span style="font-family: monospace;">
+
+Richard</span><br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<div style="text-align: center;">&copy;&nbsp;2001
+R.G. Atkinson.<br>
+
+
+
+</div>
+
+
+
+<br>
+
+
+
+<div style="text-align: center;">
+The author has asserted the right to be identified as the author of
+the original works.
+</div>
+
+
+
+</body>
+</html>

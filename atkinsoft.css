@@ -1,0 +1,136 @@
+		body {
+		background: black;
+		color: white;
+		font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+		// font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+		}
+		
+		div {
+		}
+		
+		.heading {
+		background-image: url("IMG_0714_1632x1224.jpg");
+		background-size: cover;
+		background-position: center;
+		height: 256px;
+		position: relative;
+		text-align: center;
+		
+		}
+		
+		h1 {
+		font-size: 72px;
+		background: rgba(0,0,0,.5);
+		color: white;
+		width: 640px;
+		margin: 0 auto;
+
+
+		}
+		
+		
+		.content {
+		max-width: 900px;
+		margin: 20px auto;
+		}
+		
+		.webaudiosynth {
+		
+		max-width: 960px;
+		margin: 0 auto;
+		}
+		
+		p {
+		color: white;
+
+		}
+		
+		h2 {
+		text-align: center;
+		}
+		
+		.description {
+
+		}
+		
+		.devereuxandonians {
+		text-align: center;
+		}
+		
+		.preformatted {
+		font-family: "Courier New", Courier, monospace;
+		}
+		
+		.videodiv {
+		text-align: center;
+		
+		}
+		
+		.imagediv {
+		text-align: center;
+		margin: 20px;
+		}
+		
+		a {
+		color: white;
+		}
+		
+		ul {
+
+		}
+		
+		.links {
+		background: rgba(0,0,0,.5);
+		padding: 10px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: 0;
+
+
+		}
+		
+		li {
+		display: inline;
+		padding: 0 10px;
+		color: white;
+		}
+		
+		.content {
+
+		}
+		
+		.row {
+		background: rgba(0,0,85,1);
+		margin: 16px 0;
+		border: 16px;
+		}
+		
+		.inbetweentext {
+		clear: both;
+		background: rgba(0,0,170,1);
+		text-align: center;
+		margin: 16px 0 0 0;
+		}
+		
+		.slider {
+		float: left;
+		background: rgba(0,0,85,1);
+		text-align: center;
+		width: 120px;
+		}
+		
+		input[type=range]
+		{
+		-webkit-appearance: slider-vertical;
+		background: rgba(0,170,170,1);
+		}
+		
+		.button {
+		float: left;
+		background: rgba(170,0,170,1);
+		text-align: center;
+		width: 120px;
+		}

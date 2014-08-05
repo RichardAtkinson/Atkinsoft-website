@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+	<link href="atkinsoft.css" rel="stylesheet">
+	
+    <title>Sinclair ZX Spectrum projects</title>
+
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Richard Atkinson</h1>
+
+		<ul class="links">
+			<li><a href="sega.html">Sega Master System</a></li>
+			<li>Sinclair ZX Spectrum</li>
+			<li><a href="ts2068.html">Timex Sinclair 2068</a></li>
+			<li><a href="synclavier.html">Synclavier II</a></li>
+			<li><a href="stewartlee.html">Stewart Lee</a></li>
+			<li><a href="sid.html">Commodore SID</a></li>
+			<li><a href="fm.html">Yamaha FM</a></li>
+			<li><a href="audio.html">Web Audio</a></li>
+		</ul>
+
+	</div>
+		
+    <div class="content">
+		<h2>S-video modification for Sinclair ZX Spectrum +2</h2>
+		<p class="description">The following video demonstrates S-video on the Sinclair ZX Spectrum +2. S-video eliminates interference between the luminance (black and white) and chrominance (colour) signals in a colour television picture. Interference exists in every composite colour system, to one extent or another. It's impossible to separate perfectly the two signals once they have been combined. The interference (dot crawl) is particularly bad on the 48K Spectrum because there are two crystals - 14 MHz and 4.43 MHz. The relationship between the pixels and the colour subcarrier changes all the time. The 128K Spectrum and Spectrum +2 have a single crystal and a fixed relationship between the pixels and the colour subcarrier. Nevertheless they still suffer from interference between the luminance and chrominance signals, as the game <a href="http://csscgc2013.blogspot.co.uk/2013/06/chromatrons-attack.html">Chromatrons Attack</a> demonstrates. This can be removed by converting the machine to output S-video instead.</p>
+
+		<div class="videodiv">
+
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/EcM4oscHLSE" frameborder="0" allowfullscreen></iframe>
+			
+		</div>
+		<p class="description">To showcase the new video signal I used a new loading screen for the Spanish game <a href="http://www.worldofspectrum.org/infoseekid.cgi?id=0003676">Phantis</a> (Game Over II).</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/sLrKBq9-1AY" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<h2>Single transistor composite video modification for 16K/48K Spectrum</h2>
+		<p class="description">Although S-video gives better picture quality, it involves relatively complex modifications and if you have a large number of Spectrums you may not want to do these modifications on all of them. For the 16K/48K Spectrum and the Spectrum+, composite video provides an easier alternative. I advocate the single transistor composite video modification. This puts composite video onto the old RF connector at the back of the Spectrum and requires only one component, an NPN transistor, and a piece of wire.</p>
+		<p class="description">This video shows an Issue 2 Spectrum 48K with single transistor composite video.</p>
+		<p class="description">There is also a <a href="http://www.worldofspectrum.org/forums/showthread.php?t=47302">thread at World of Spectrum</a> discussing this modification.</p>
+
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/CFbAQl-kx8g" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<p class="description">Again, to show the effect of the mod, and to highlight the difference in quality between composite video and S-video, I made a video of the new Phantis loading screen. This video was made on an Issue 4S Spectrum + which had single transistor composite video fitted.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/z8jRNqM7aNk" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<h2>S-video modification for 16K/48K Spectrum</h2>
+		<p class="description">It is also possible to modify 16K/48K Spectrums and Spectrum + machines for S-video output. This requires an extra connector on the case since S-video is a two signal system. This video shows an Issue Two Spectrum in a Transform keyboard case (with the top off) with an S-video modification.</p>
+		<p class="description">Again, there is a <a href="http://www.worldofspectrum.org/forums/showthread.php?t=47120">thread at World of Spectrum</a> discussing this modification.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/KKFOxLqHl1s" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<p class="description">And here is the new Phantis loading screen on that S-video modified Issue Two Spectrum.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/62QeitoarhI" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<h2>Further technical information</h2>
+		<p class="description">The Spectrum has a 14 MHz ULA clock (which is divided by two to make the dot clock) and a 4.43MHz colour clock as is typical for PAL.</p>
+
+		<p class="description">There are 448 dots per line which gives an exact 64 microsecond line, 15.625kHz line frequency.</p>
+
+		<p class="description">The PAL system by design has just over 283.75 colour clocks per line. If it were exactly 283.75 the colour frequency would be 4433593.75 Hz but it has 25 Hz added to this so the actual figure is 4433618.75 Hz. (283.7516 colour clocks per line)</p>
+
+		<p class="description">A true PAL display (known as coherent PAL) is interlaced and has 625 lines over the course of two television fields or one frame. Over the course of eight fields or four frames (2500 lines) there is an integer number of colour clocks (283.7516*2500 = 709379) and so the interference pattern caused by the colour dots repeats after eight fields - PAL has an eight field sequence.</p>
+
+		<p class="description">However the ZX Spectrum ULA display is not interlaced and has 312 lines per progressive frame. This has a much, much longer sequence length - so even if the two clocks were derived from the same source (which they are not in the Spectrum circuit - there are two crystals) there would still be an interference pattern which has a very long cycle length - what we see as dot crawl.</p>
+
+		<p class="description">In fact the Spectrum has a 625 progressive frame sequence, assuming the two crystals are generating their exact frequencies, which lasts 12.48 seconds.</p>
+
+		<p class="description">The two crystals don't generate the exact frequencies in practice, in fact they drift due to temperature, voltage, power consumption and so on, and most importantly they drift relative to each other. So the colour interference patterns (dot crawl) on a Spectrum vary in unpredictable ways.</p>
+
+		<p class="description">If the PAL colour system had exactly 283.75 colour cycles per line instead of 283.7516, then the Spectrum would have an integer number of colour cycles in each 312 line progressive frame (283.75*312 = 88530) and there would be no dot crawl. The colour pattern would have a single progressive frame sequence.</p>
+
+		<p class="description">You can achieve a similar thing on the Spectrum by slightly increasing the ULA clock frequency which is divided by two to produce the dot clock. If you increase it by 283.7516/283.75 this produces a line frequency of 15625.08810572687 Hz and a dot clock of 7000039.471365639 Hz. The ULA now produces slightly shorter lines which have exactly 283.75 colour clocks per line and the colour pattern has a single 312 line frame sequence.</p>
+
+		<p class="description">The Spectrum 128 ULA has 456 dots per line and 285 colour cycles per line because its dot clock and colour clock are in the ratio 4:2.5 and the line frequency was made slightly lower (and out of true PAL spec) to allow this. It has a two progressive frame sequence because of the V switch - since there are 311 lines per progressive frame it takes two progressive frames to repeat the colour dot pattern. The PAL R-Y +/- switch alternates every line, and because there is an odd number of lines per frame (311) this causes the overall dot pattern to have a 2 frame sequence. This is why the dot pattern in a 128K Spectrum display has a very fast 25.01054 Hz flicker rate.</p>
+
+		
+    </div>
+</body>
+
+</html>

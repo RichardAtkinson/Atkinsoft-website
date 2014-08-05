@@ -1,0 +1,199 @@
+<html>
+	<head>
+		<!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+
+		<title>Richard Atkinson</title>
+		<style>
+		body {
+		background: black;
+
+		}
+		
+		div {
+		}
+		
+		.heading {
+		background-image: url("IMG_0714_1632x1224.jpg");
+		background-size: cover;
+		background-position: center;
+		height: 256px;
+		position: relative;
+		text-align: center;
+		
+		}
+		
+		h1 {
+		font-size: 72px;
+		background: rgba(0,0,0,.5);
+		color: white;
+		width: 640px;
+		margin: 0 auto;
+
+
+		}
+		
+		p {
+
+		}
+		
+		ul {
+
+		}
+		
+		.links {
+		background: rgba(0,0,0,.5);
+		padding: 10px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: 0;
+
+
+		}
+		
+		li {
+		display: inline;
+		padding: 0 10px;
+		color: white;
+		}
+		.content {
+
+		}
+		</style>
+	</head>
+	<body>
+		<div class="heading">
+			<h1>Richard Atkinson</h1>
+
+			<ul class="links">
+				<li>Sega Master System</li>
+				<li>Sinclair ZX Spectrum</li>
+				<li>Timex Sinclair 2068</li>
+				<li>Synclavier II</li>
+				<li>Stewart Lee</li>
+				<li>Commodore SID</li>
+				<li>Yamaha FM</li>
+			</ul>
+
+		</div>
+		<div class="content">
+
+			<button onclick="buttonFunction()">Start / Stop</button>
+			<br>
+			<button onclick="sineFunction()">Sine</button>
+			<button onclick="triangleFunction()">Triangle</button>
+			<button onclick="sawtoothFunction()">Sawtooth</button>
+			<button onclick="squareFunction()">Square</button>
+
+
+			<br>
+			<input type="range" id="slider" min="0" max="120" step="1" value="60" oninput="onInput()">
+			<br>
+			<input type="range" id="detune" min="-64" max="63" step="1" value="4" oninput="detune()">
+			<br>
+			<input type="range" id="cutoff" min="0" max="120" step="1" value="60" oninput="myCutoff()">
+
+			<p id="oninput">On Input messages</p>
+
+		
+		</div>
+		<script>
+
+			var start = 0;
+			var onoff = 0;
+			var fineTune = 1000000 / 16777216;
+			var tune = 60;
+			var osc2detune = 4;
+			var cutoff = 440;
+			
+			var context = new webkitAudioContext(); // Create audio container
+			var oscillators = [context.createOscillator(), context.createOscillator()]; // Create sound source
+			var gainNodes = [context.createGainNode(), context.createGainNode(), context.createGainNode()]; // create gain nodes
+			var filterNode = context.createBiquadFilter();
+			
+			
+			
+			oscillators[0].type = 0; // sine wave
+			oscillators[1].type = 0;
+			oscillators[0].frequency.value = 20 * Math.pow(2, tune / 12) - osc2detune * fineTune; // frequency in Hz
+			oscillators[1].frequency.value = 20 * Math.pow(2, tune / 12) + osc2detune * fineTune;
+			gainNodes[0].gain.value = 1;
+			gainNodes[1].gain.value = 1;
+			
+			filterNode.frequency.value = 440; // cutoff = 440
+			filterNode.Q.value = 1; // resonance = 1
+			filterNode.type = 0; // lowpass
+
+			oscillators[0].connect(gainNodes[0]); // Connect sound to gain node
+			oscillators[1].connect(gainNodes[1]);
+			gainNodes[0].connect(filterNode);
+			gainNodes[1].connect(filterNode);
+			filterNode.connect(context.destination);
+			
+			function buttonFunction() {
+			
+				if (start == 0) {
+			
+					start = 1;
+					onoff = 1;
+					oscillators[0].noteOn(0); // Play when pressed
+					oscillators[1].noteOn(0);
+				} else {
+					onoff = 1 - onoff;
+					gainNodes[0].gain.value = onoff;
+					gainNodes[1].gain.value = onoff;
+				}
+			}
+			
+			function sineFunction() {
+				oscillators[0].type = 0;
+				oscillators[1].type = 0;
+			}
+			
+			function squareFunction() {
+				oscillators[0].type = 1;
+				oscillators[1].type = 1;
+			}
+			
+			function sawtoothFunction() {
+				oscillators[0].type = 2;
+				oscillators[1].type = 2;
+			}
+			
+			function triangleFunction() {
+				oscillators[0].type = 3;
+				oscillators[1].type = 3;
+			}
+			
+			function onInput() {
+			var myValue = document.getElementById('slider').value;
+			document.getElementById('oninput').innerHTML = myValue;
+			tune = myValue;
+			
+			oscillators[0].frequency.value = 20 * Math.pow(2, tune / 12) - osc2detune * fineTune;
+			oscillators[1].frequency.value = 20 * Math.pow(2, tune / 12) + osc2detune * fineTune;
+			}
+			
+			function detune() {
+			var myValue = document.getElementById('detune').value;
+			osc2detune = myValue;
+			oscillators[0].frequency.value = 20 * Math.pow(2, tune / 12) - osc2detune * fineTune;
+			oscillators[1].frequency.value = 20 * Math.pow(2, tune / 12) + osc2detune * fineTune;
+			}
+
+			function myCutoff() {
+			var myValue = document.getElementById('cutoff').value;
+
+			cutoff = 20 * Math.pow(2, myValue / 12);
+			
+			
+			filterNode.frequency.value = cutoff;
+
+			}
+			
+		</script>
+	</body>
+</html>

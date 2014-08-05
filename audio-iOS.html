@@ -1,0 +1,565 @@
+<html>
+
+<head>
+    <!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+
+    <title>Simple Web Audio 3 oscillator synthesizer</title>
+		<style>
+		body {
+		background: black;
+		color: white;
+		}
+		
+		div {
+		}
+		
+		.heading {
+		background-image: url("IMG_0714_1632x1224.jpg");
+		background-size: cover;
+		background-position: center;
+		height: 256px;
+		position: relative;
+		text-align: center;
+		
+		}
+		
+		h1 {
+		font-size: 72px;
+		background: rgba(0,0,0,.5);
+		color: white;
+		width: 640px;
+		margin: 0 auto;
+
+
+		}
+		
+		p {
+		color: white;
+		}
+		
+		a {
+		color: white;
+		}
+		
+		ul {
+
+		}
+		
+		.links {
+		background: rgba(0,0,0,.5);
+		padding: 10px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: 0;
+
+
+		}
+		
+		li {
+		display: inline;
+		padding: 0 10px;
+		color: white;
+		}
+		
+		.content {
+
+		}
+		
+		.row {
+
+		}
+		
+		.inbetweentext {
+		clear: both;
+		}
+		
+		.slider {
+		float: left;
+		}
+		
+		input[type=range]
+		{
+
+		}
+		
+		.button {
+		float: left;		
+		}
+    </style>
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Richard Atkinson</h1>
+
+		<ul class="links">
+			<li><a href="#">Sega Master System</a></li>
+			<li><a href="#">Sinclair ZX Spectrum</a></li>
+			<li><a href="#">Timex Sinclair 2068</a></li>
+			<li><a href="#">Synclavier II</a></li>
+			<li><a href="#">Stewart Lee</a></li>
+			<li><a href="#">Commodore SID</a></li>
+			<li><a href="#">Yamaha FM</a></li>
+			<li>Web Audio</li>
+		</ul>
+
+	</div>
+    <div class="content">
+		<div class="row">
+			<button id="stop" onclick="myButtonFunction()">Start / Stop</button>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Cutoff Resonance Filter mode Volume</p>
+			<div class="slider"><input id="sliderCF" type="range" min="0" max="120" step="1" value="60" oninput="mySliderCF()" /></div>
+			<div class="slider"><input id="sliderRES" type="range" min="-40" max="30" step="1" value="-3" oninput="mySliderRES()" /></div>
+			<div class="slider"><input id="filtertype" type="range" min="0" max="4" step="1" value="0" oninput="myFilterType()"  /></div>
+			<div class="slider"><input id="sliderPFG" type="range" min="0" max="30" step="1" value="20" oninput="mySliderPFG()" /></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext"></p>
+			<div class="button"><button id="filter1" onclick="myFilter1()">Filter osc 1</button></div>
+			<div class="button"><button id="filter2" onclick="myFilter2()">Filter osc 2</button></div>
+			<div class="button"><button id="filter3" onclick="myFilter3()">Filter osc 3</button></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext"></p>
+			<div class="button"><button id="one" onclick="myOneFunction()">Osc 1 on/off</button></div>
+			<div class="button"><button id="two" onclick="myTwoFunction()">Osc 2 on/off</button></div>
+			<div class="button"><button id="three" onclick="myThreeFunction()">Osc 3 on/off</button></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator one Coarse tune Fine tune Waveform Pulse width Sustain (no Attack Decay Release)</p>
+	
+			<div class="slider"><input id="slider1" type="range" min="0" max="120" step="1" value="60" oninput="mySlider1()"  /></div>
+			<div class="slider"><input id="fslider1" type="range" min="-64" max="63" step="1" value="-16" oninput="myFSlider1()" /></div>
+			<div class="slider"><input id="sliderWF1" type="range" min="0" max="4" step="1" value="2" oninput="mySliderWF1()" /></div>
+			<div class="slider"><input id="sliderPW1" type="range" min="0" max="127" step="1" value="32" oninput="mySliderPW1()" /></div>
+			<div class="slider"><input id="sliderSUS1" type="range" min="0" max="1" step="0.01" value="1" oninput="mySliderSUS1()" /></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator two Coarse tune Fine tune Waveform Pulse width Sustain (no Attack Decay Release)</p>
+			<div class="slider"><input id="slider2" type="range" min="0" max="120" step="1" value="60" oninput="mySlider2()" /></div>
+			<div class="slider"><input id="fslider2" type="range" min="-64" max="63" step="1" value="0" oninput="myFSlider2()" /></div>
+			<div class="slider"><input id="sliderWF2" type="range" min="0" max="4" step="1" value="2" oninput="mySliderWF2()" /></div>
+			<div class="slider"><input id="sliderPW2" type="range" min="0" max="127" step="1" value="32" oninput="mySliderPW2()" /></div>
+			<div class="slider"><input id="sliderSUS2" type="range" min="0" max="1" step="0.01" value="1" oninput="mySliderSUS2()" /></div>
+
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator three Coarse tune Fine tune Waveform Pulse width Sustain (no Attack Decay Release)</p>
+			<div class="slider"><input id="slider3" type="range" min="0" max="120" step="1" value="60" oninput="mySlider3()" /></div>
+			<div class="slider"><input id="fslider3" type="range" min="-64" max="63" step="1" value="16" oninput="myFSlider3()" /></div>
+			<div class="slider"><input id="sliderWF3" type="range" min="0" max="4" step="1" value="2" oninput="mySliderWF3()" /></div>
+			<div class="slider"><input id="sliderPW3" type="range" min="0" max="127" step="1" value="32" oninput="mySliderPW3()" /></div>
+			<div class="slider"><input id="sliderSUS3" type="range" min="0" max="1" step="0.01" value="1" oninput="mySliderSUS3()" /></div>
+
+		</div>
+
+		<div class="row">
+			<p class="inbetweentext"></p>
+		</div>
+	<script>
+
+
+
+			var started = 0;
+            var noteOnOff = 0;
+            var noteOne = 1;
+            var noteTwo = 1;
+            var noteThree = 1;
+
+			var oscType1 = 2;
+			var oscType2 = 2;
+			var oscType3 = 2;
+			var oscPW1 = 0.25;
+			var oscPW2 = 0.25;
+			var oscPW3 = 0.25;
+			var oscSUS1 = 1;
+			var oscSUS2 = 1;
+			var oscSUS3 = 1;
+
+            var oscFreq1 = 440;
+            var oscFreq2 = 440;
+            var oscFreq3 = 440;
+            var fineFreq1 = -16;
+            var fineFreq2 = 0;
+            var fineFreq3 = +16;
+
+            var fineTune = 1000000 / 16777216;
+
+            var onoffText = ["off", "on"];
+
+			var filter1 = 1;
+			var filter2 = 1;
+			var filter3 = 1;
+            var gain = 0.1;
+
+            var filterType = 0;
+            var filterArray = [0, 2, 1, 6, 7];
+            var filterText = ["lowpass", "bandpass", "highpass", "notch", "allpass"];
+			
+			var oscArray = [0, 3, 2, 1]
+            var oscText = ["sine", "square", "sawtooth", "triangle"];
+            var pulseLength = 4096;
+            var pulseA = new Float32Array(pulseLength);
+            var pulseB = new Float32Array(pulseLength);
+            var pulseWidth = 0.25;
+
+            for (var i = 0; i < pulseLength; i++) {
+                pulseA[i] = (Math.sin(2 * Math.PI * i * pulseWidth) / (i * Math.PI));
+                pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * pulseWidth)) / (i * Math.PI));
+            }
+
+
+
+
+            var context = new webkitAudioContext(); // Create audio container
+
+            oscillator = context.createOscillator(); // Create sound source
+            gainNode = context.createGainNode();
+            oscillator2 = context.createOscillator(); // 2nd oscillator
+            gainNode2 = context.createGainNode();
+            oscillator3 = context.createOscillator();
+            gainNode3 = context.createGainNode();
+
+            filterNode = context.createBiquadFilter();
+
+            gainNode4 = context.createGainNode();
+
+            var myPeriodicWave = context.createPeriodicWave(pulseA, pulseB);
+
+             // sine wave 0, square wave 1, sawtooth wave 2, triangle wave 3
+            oscillator.type = oscText[oscArray[oscType1]];
+            oscillator.frequency.value = oscFreq1 + fineFreq1 * fineTune; // frequency in Hz
+            gainNode.gain.value = 1;
+
+            oscillator2.type = oscText[oscArray[oscType2]];
+            oscillator2.frequency.value = oscFreq2 + fineFreq2 * fineTune;
+            gainNode2.gain.value = 1;
+
+
+            oscillator3.type = oscText[oscArray[oscType3]];
+            oscillator3.frequency.value = oscFreq3 + fineFreq3 * fineTune;
+            gainNode3.gain.value = 1;
+
+            filterNode.Q.value = Math.pow(10, -3 / 10);
+            filterNode.frequency.value = 20 * Math.pow(2, 60 / 12);
+            filterNode.gain.value = 0;
+            filterNode.type = filterType;
+
+            gainNode4.gain.value = gain;
+
+            oscillator.connect(gainNode); // Connect sound to output
+            oscillator2.connect(gainNode2);
+            oscillator3.connect(gainNode3);
+            gainNode.connect(filterNode);
+            gainNode2.connect(filterNode);
+            gainNode3.connect(filterNode);
+            filterNode.connect(gainNode4);
+            gainNode4.connect(context.destination);
+
+
+
+            function myButtonFunction() {
+			
+			if (started == 0) {
+			
+				oscillator.noteOn(0); // Play instantly
+				oscillator2.noteOn(0); // play
+				oscillator3.noteOn(0);
+				started = 1;
+				noteOnOff = 1;
+				
+				} else {
+				
+                noteOnOff = 1 - noteOnOff;
+
+
+                if (noteOnOff == 1) {
+                    gainNode.gain.value = noteOne * oscSUS1; // Play instantly
+                    gainNode2.gain.value = noteTwo * oscSUS2; // play
+                    gainNode3.gain.value = noteThree * oscSUS3;
+                } else {
+                    gainNode.gain.value = 0; // Stop instantly
+                    gainNode2.gain.value = 0; // stop
+                    gainNode3.gain.value = 0;
+                }
+			}
+
+
+            }
+
+            function myOneFunction() {
+                noteOne = 1 - noteOne;
+
+                if (noteOnOff == 1) {
+                    gainNode.gain.value = noteOne * oscSUS1;
+                } else {
+                    gainNode.gain.value = 0;
+                }
+
+            }
+
+            function myTwoFunction() {
+                noteTwo = 1 - noteTwo;
+
+                if (noteOnOff == 1) {
+                    gainNode2.gain.value = noteTwo * oscSUS2;
+                } else {
+                    gainNode2.gain.value = 0;
+                }
+
+            }
+
+            function myThreeFunction() {
+                noteThree = 1 - noteThree;
+
+                if (noteOnOff == 1) {
+                    gainNode3.gain.value = noteThree * oscSUS3;
+                } else {
+                    gainNode3.gain.value = 0;
+                }
+
+            }
+
+
+            function myFilterType() {
+				var myValue = document.getElementById('filtertype').value;
+                filterType = myValue;
+
+                filterNode.type = filterText[filterType];
+
+            }
+
+			function myFilter1() {
+				filter1 = 1 - filter1;
+			
+				if (filter1 == 1) {
+					gainNode.disconnect();
+					gainNode.connect(filterNode);
+				} else {
+					gainNode.disconnect();
+					gainNode.connect(gainNode4);
+				}
+			}
+			
+			function myFilter2() {
+				filter2 = 1 - filter2;
+			
+				if (filter2 == 1) {
+					gainNode2.disconnect();
+					gainNode2.connect(filterNode);
+				} else {
+					gainNode2.disconnect();
+					gainNode2.connect(gainNode4);
+				}
+			}
+			
+			function myFilter3() {
+				filter3 = 1 - filter3;
+			
+				if (filter3 == 1) {
+					gainNode3.disconnect();
+					gainNode3.connect(filterNode);
+				} else {
+					gainNode3.disconnect();
+					gainNode3.connect(gainNode4);
+				}
+			}
+			
+
+
+
+            function mySlider1() {
+                var myValue = document.getElementById('slider1').value;
+
+                oscFreq1 = 20 * Math.pow(2, myValue / 12);
+                oscillator.frequency.value = oscFreq1 + fineFreq1 * fineTune;
+
+            }
+
+            function mySlider2() {
+                var myValue = document.getElementById('slider2').value;
+
+                oscFreq2 = 20 * Math.pow(2, myValue / 12);
+                oscillator2.frequency.value = oscFreq2 + fineFreq2 * fineTune;
+
+            }
+
+            function mySlider3() {
+                var myValue = document.getElementById('slider3').value;
+
+                oscFreq3 = 20 * Math.pow(2, myValue / 12);
+                oscillator3.frequency.value = oscFreq3 + fineFreq3 * fineTune;
+
+            }
+
+            function myFSlider1() {
+                var myValue = document.getElementById('fslider1').value;
+
+                fineFreq1 = myValue;
+                oscillator.frequency.value = oscFreq1 + fineFreq1 * fineTune;
+
+            }
+
+            function myFSlider2() {
+                var myValue = document.getElementById('fslider2').value;
+
+                fineFreq2 = myValue;
+                oscillator2.frequency.value = oscFreq2 + fineFreq2 * fineTune;
+
+            }
+
+            function myFSlider3() {
+                var myValue = document.getElementById('fslider3').value;
+
+                fineFreq3 = myValue;
+                oscillator3.frequency.value = oscFreq3 + fineFreq3 * fineTune;
+
+            }
+
+
+            function mySliderCF() {
+                var myValue = document.getElementById('sliderCF').value;
+
+                var myFreq = 20 * Math.pow(2, myValue / 12);
+                filterNode.frequency.value = myFreq;
+
+            }
+
+            function mySliderRES() {
+                var myValue = document.getElementById('sliderRES').value;
+
+                var myRES = Math.pow(10, myValue / 10);
+                filterNode.Q.value = myRES;
+
+            }
+
+            function mySliderPW1() {
+                var myValue = document.getElementById('sliderPW1').value;
+                oscPW1 = myValue / 128;
+
+                for (var i = 0; i < pulseLength; i++) {
+                    pulseA[i] = (Math.sin(2 * Math.PI * i * oscPW1) / (i * Math.PI));
+                    pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * oscPW1)) / (i * Math.PI));
+                }
+
+                myPeriodicWave = context.createPeriodicWave(pulseA, pulseB);
+
+                if (oscType1 == 4) {
+                    oscillator.setPeriodicWave(myPeriodicWave);
+                }
+            }
+			
+			function mySliderPW2() {
+                var myValue = document.getElementById('sliderPW2').value;
+                oscPW2 = myValue / 128;
+
+                for (var i = 0; i < pulseLength; i++) {
+                    pulseA[i] = (Math.sin(2 * Math.PI * i * oscPW2) / (i * Math.PI));
+                    pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * oscPW2)) / (i * Math.PI));
+                }
+
+                myPeriodicWave = context.createPeriodicWave(pulseA, pulseB);
+
+                if (oscType2 == 4) {
+                    oscillator2.setPeriodicWave(myPeriodicWave);
+                }
+            }
+			
+			function mySliderPW3() {
+                var myValue = document.getElementById('sliderPW3').value;
+                oscPW3 = myValue / 128;
+
+                for (var i = 0; i < pulseLength; i++) {
+                    pulseA[i] = (Math.sin(2 * Math.PI * i * oscPW3) / (i * Math.PI));
+                    pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * oscPW3)) / (i * Math.PI));
+                }
+
+                myPeriodicWave = context.createPeriodicWave(pulseA, pulseB);
+
+                if (oscType3 == 4) {
+                    oscillator3.setPeriodicWave(myPeriodicWave);
+                }
+            }
+
+            function mySliderPFG() {
+                var myValue = document.getElementById('sliderPFG').value;
+
+                var myPFG = Math.pow(10, (myValue - 30) / 10);
+                gainNode4.gain.value = myPFG;
+
+            }
+
+			
+			function mySliderWF1() {
+			myValue = document.getElementById('sliderWF1').value;
+                oscType1 = myValue;
+				
+				if (oscType1 == 4) {
+					oscillator.setPeriodicWave(myPeriodicWave);
+				} else {
+					oscillator.type = oscText[oscArray[oscType1]];
+				}
+            }
+			
+			function mySliderWF2() {
+			myValue = document.getElementById('sliderWF2').value;
+                oscType2 = myValue;
+				
+				if (oscType2 == 4) {
+					oscillator2.setPeriodicWave(myPeriodicWave);
+				} else {
+					oscillator2.type = oscText[oscArray[oscType2]];
+				}
+            }
+
+			function mySliderWF3() {
+			myValue = document.getElementById('sliderWF3').value;
+                oscType3 = myValue;
+				
+				if (oscType3 == 4) {
+					oscillator3.setPeriodicWave(myPeriodicWave);
+				} else {
+					oscillator3.type = oscText[oscArray[oscType3]];
+				}
+            }
+            function mySliderSUS1() {
+                var myValue = document.getElementById('sliderSUS1').value;
+
+                oscSUS1 = myValue;
+				
+                if (noteOnOff == 1) {
+                    gainNode.gain.value = noteOne * oscSUS1;
+                }
+            }
+			
+            function mySliderSUS2() {
+                var myValue = document.getElementById('sliderSUS2').value;
+
+                oscSUS2 = myValue;
+				
+                if (noteOnOff == 1) {
+                    gainNode2.gain.value = noteTwo * oscSUS2;
+                }
+            }
+			
+            function mySliderSUS3() {
+                var myValue = document.getElementById('sliderSUS3').value;
+
+                oscSUS3 = myValue;
+				
+                if (noteOnOff == 1) {
+                    gainNode3.gain.value = noteThree * oscSUS3;
+                }
+            }
+        </script>
+
+	
+</body>
+
+</html>

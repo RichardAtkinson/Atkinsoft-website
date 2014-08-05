@@ -1,0 +1,764 @@
+<html>
+
+<head>
+    <!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+
+    <title>Simple Web Audio 3 oscillator synthesizer</title>
+		<style>
+		body {
+		background: black;
+		color: white;
+		}
+		
+		div {
+		}
+		
+		.heading {
+		background-image: url("IMG_0714_1632x1224.jpg");
+		background-size: cover;
+		background-position: center;
+		height: 256px;
+		position: relative;
+		text-align: center;
+		
+		}
+		
+		h1 {
+		font-size: 72px;
+		background: rgba(0,0,0,.5);
+		color: white;
+		width: 640px;
+		margin: 0 auto;
+
+
+		}
+		
+		p {
+		color: white;
+
+		}
+		
+		h2 {
+		text-align: center;
+		}
+		
+		.description {
+		max-width: 900px;
+		margin: 20px auto;
+		}
+		
+		a {
+		color: white;
+		}
+		
+		ul {
+
+		}
+		
+		.links {
+		background: rgba(0,0,0,.5);
+		padding: 10px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: 0;
+
+
+		}
+		
+		li {
+		display: inline;
+		padding: 0 10px;
+		color: white;
+		}
+		
+		.content {
+
+		}
+		
+		.row {
+		background: rgba(0,0,85,1);
+		}
+		
+		.inbetweentext {
+		clear: both;
+		background: rgba(0,0,170,1);
+		}
+		
+		.slider {
+		float: left;
+		background: rgba(0,0,255,1);
+		}
+		
+		input[type=range]
+		{
+		-webkit-appearance: slider-vertical;
+		background: rgba(0,170,170,1);
+		}
+		
+		.button {
+		float: left;
+		background: rgba(170,0,170,1);
+		}
+		
+		
+		
+		</style>
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Richard Atkinson</h1>
+
+		<ul class="links">
+			<li><a href="#">Sega Master System</a></li>
+			<li><a href="#">Sinclair ZX Spectrum</a></li>
+			<li><a href="#">Timex Sinclair 2068</a></li>
+			<li><a href="#">Synclavier II</a></li>
+			<li><a href="#">Stewart Lee</a></li>
+			<li><a href="#">Commodore SID</a></li>
+			<li><a href="#">Yamaha FM</a></li>
+			<li>Web Audio</li>
+		</ul>
+
+	</div>
+		
+    <div class="content">
+	<h2>Web Audio MOS 6581 SID simulation</h2>
+	<p class="description">This is a Web Audio simulation of my software for the HardSID card. Every button or slider on this interface (except the Start / Stop button) corresponds to a button or knob on the Behringer BCR2000 MIDI control surface which is used to control the SID sounds. In the HardSID version, the pitch and duration of the note can be controlled using a MIDI keyboard or sequencer.</p>
+	<p class="description">Some differences exist between the capabilities of the Web Audio software synthesizer and the MOS 6581 digital/analogue hardware synthesizer. Rather than emulate SID exactly, this simulation allows some Web Audio characteristics to be explored, and also reveals differences between browser implementations (Chrome and Firefox).</p>
+	<p class="description">Filter cutoff may be varied between 20 Hz - 20 kHz. Resonance may be varied up to 1000, which is an enormous value for any hardware resonant filter. This will distort the output of the Web Audio simulation, so to reduce the final output gain a Volume slider is provided (equivalent to register $18 in the SID). Filter modes are low pass, band pass, high pass, notch and all pass in the Web Audio simulation and the oscillator waveforms available are sine, triangle, sawtooth, square and pulse.</p>
+		<div class="row">
+			<p class="inbetweentext" id="mytext">Here is some text</p>
+			<button id="stop" onclick="startStop()">Start / Stop</button>
+			<button id="waveshaperbutton" onclick="waveShaper()">WaveShaper</button>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Cutoff Resonance Filter mode Volume</p>
+			<div class="slider"><input id="cutoff" type="range" min="0" max="120" step="1" value="84" orient="vertical" oninput="setCutoffFrequency()" /></div>
+			<div class="slider"><input id="resonance" type="range" min="-40" max="30" step="1" value="0" orient="vertical" oninput="setResonance()" /></div>
+			<div class="slider"><input id="filtertype" type="range" min="0" max="4" step="1" value="0" orient="vertical" oninput="setFilterType()"  /></div>
+			<div class="slider"><input id="postfiltergain" type="range" min="0" max="120" step="1" value="100" orient="vertical" oninput="setPostFilterGain()" /></div>
+			<div class="slider"><input id="waveshapergain" type="range" min="0" max="120" step="1" value="60" orient="vertical" oninput="setWaveShaperGain()" /></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext"></p>
+			<div class="button"><button id="filter0">Filter osc 1</button></div>
+			<div class="button"><button id="filter1">Filter osc 2</button></div>
+			<div class="button"><button id="filter2">Filter osc 3</button></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext"></p>
+			<div class="button"><button id="oscillator0">Osc 1 on/off</button></div>
+			<div class="button"><button id="oscillator1">Osc 2 on/off</button></div>
+			<div class="button"><button id="oscillator2">Osc 3 on/off</button></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator one Coarse tune Fine tune Waveform Pulse width Attack Decay Sustain Release</p>
+	
+			<div class="slider"><input id="coarse0" type="range" min="0" max="120" step="1" value="36" orient="vertical"/></div>
+			<div class="slider"><input id="fine0" type="range" min="-64" max="63" step="1" value="-16" orient="vertical"/></div>
+			<div class="slider"><input id="waveform0" type="range" min="0" max="4" step="1" value="2" orient="vertical"/></div>
+			<div class="slider"><input id="pulsewidth0" type="range" min="0" max="127" step="1" value="32" orient="vertical"/></div>
+			<div class="slider"><input id="attack0" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="decay0" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="sustain0" type="range" min="0" max="15" step="1" value="15" orient="vertical"/></div>
+			<div class="slider"><input id="release0" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator two Coarse tune Fine tune Waveform Pulse width Attack Decay Sustain Release</p>
+			<div class="slider"><input id="coarse1" type="range" min="0" max="120" step="1" value="36" orient="vertical"/></div>
+			<div class="slider"><input id="fine1" type="range" min="-64" max="63" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="waveform1" type="range" min="0" max="4" step="1" value="2" orient="vertical"/></div>
+			<div class="slider"><input id="pulsewidth1" type="range" min="0" max="127" step="1" value="32" orient="vertical"/></div>
+			<div class="slider"><input id="attack1" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="decay1" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="sustain1" type="range" min="0" max="15" step="1" value="15" orient="vertical"/></div>
+			<div class="slider"><input id="release1" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator three Coarse tune Fine tune Waveform Pulse width Attack Decay Sustain Release</p>
+			<div class="slider"><input id="coarse2" type="range" min="0" max="120" step="1" value="36" orient="vertical"/></div>
+			<div class="slider"><input id="fine2" type="range" min="-64" max="63" step="1" value="16" orient="vertical"/></div>
+			<div class="slider"><input id="waveform2" type="range" min="0" max="4" step="1" value="2" orient="vertical"/></div>
+			<div class="slider"><input id="pulsewidth2" type="range" min="0" max="127" step="1" value="32" orient="vertical"/></div>
+			<div class="slider"><input id="attack2" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="decay2" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider"><input id="sustain2" type="range" min="0" max="15" step="1" value="15" orient="vertical"/></div>
+			<div class="slider"><input id="release2" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+
+		</div>
+
+		<div class="row">
+			<p class="inbetweentext"></p>
+		</div>
+
+
+        <script>
+            /* First we have the AudioContextMonkeyPatch.js
+             */
+            /* Copyright 2013 Chris Wilson
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+            /* 
+
+            This monkeypatch library is intended to be included in projects that are
+            written to the proper AudioContext spec (instead of webkitAudioContext), 
+            and that use the new naming and proper bits of the Web Audio API (e.g. 
+            using BufferSourceNode.start() instead of BufferSourceNode.noteOn()), but may
+            have to run on systems that only support the deprecated bits.
+
+            This library should be harmless to include if the browser supports 
+            unprefixed "AudioContext", and/or if it supports the new names.  
+
+            The patches this library handles:
+            if window.AudioContext is unsupported, it will be aliased to webkitAudioContext().
+            if AudioBufferSourceNode.start() is unimplemented, it will be routed to noteOn() or
+            noteGrainOn(), depending on parameters.
+
+            The following aliases only take effect if the new names are not already in place:
+
+            AudioBufferSourceNode.stop() is aliased to noteOff()
+            AudioContext.createGain() is aliased to createGainNode()
+            AudioContext.createDelay() is aliased to createDelayNode()
+            AudioContext.createScriptProcessor() is aliased to createJavaScriptNode()
+            OscillatorNode.start() is aliased to noteOn()
+            OscillatorNode.stop() is aliased to noteOff()
+            AudioParam.setTargetAtTime() is aliased to setTargetValueAtTime()
+
+            This library does NOT patch the enumerated type changes, as it is 
+            recommended in the specification that implementations support both integer
+            and string types for AudioPannerNode.panningModel, AudioPannerNode.distanceModel 
+            BiquadFilterNode.type and OscillatorNode.type.
+
+            */
+            (function (global, exports, perf) {
+                'use strict';
+
+                function fixSetTarget(param) {
+                    if (!param) // if NYI, just return
+                        return;
+                    if (!param.setTargetAtTime)
+                        param.setTargetAtTime = param.setTargetValueAtTime;
+                }
+
+                if (window.hasOwnProperty('webkitAudioContext') &&
+                    !window.hasOwnProperty('AudioContext')) {
+                    window.AudioContext = webkitAudioContext;
+
+                    if (!AudioContext.prototype.hasOwnProperty('createGain'))
+                        AudioContext.prototype.createGain = AudioContext.prototype.createGainNode;
+                    if (!AudioContext.prototype.hasOwnProperty('createDelay'))
+                        AudioContext.prototype.createDelay = AudioContext.prototype.createDelayNode;
+                    if (!AudioContext.prototype.hasOwnProperty('createScriptProcessor'))
+                        AudioContext.prototype.createScriptProcessor = AudioContext.prototype.createJavaScriptNode;
+
+                    AudioContext.prototype.internal_createGain = AudioContext.prototype.createGain;
+                    AudioContext.prototype.createGain = function () {
+                        var node = this.internal_createGain();
+                        fixSetTarget(node.gain);
+                        return node;
+                    };
+
+                    AudioContext.prototype.internal_createDelay = AudioContext.prototype.createDelay;
+                    AudioContext.prototype.createDelay = function (maxDelayTime) {
+                        var node = maxDelayTime ? this.internal_createDelay(maxDelayTime) : this.internal_createDelay();
+                        fixSetTarget(node.delayTime);
+                        return node;
+                    };
+
+                    AudioContext.prototype.internal_createBufferSource = AudioContext.prototype.createBufferSource;
+                    AudioContext.prototype.createBufferSource = function () {
+                        var node = this.internal_createBufferSource();
+                        if (!node.start) {
+                            node.start = function (when, offset, duration) {
+                                if (offset || duration)
+                                    this.noteGrainOn(when, offset, duration);
+                                else
+                                    this.noteOn(when);
+                            }
+                        }
+                        if (!node.stop)
+                            node.stop = node.noteOff;
+                        fixSetTarget(node.playbackRate);
+                        return node;
+                    };
+
+                    AudioContext.prototype.internal_createDynamicsCompressor = AudioContext.prototype.createDynamicsCompressor;
+                    AudioContext.prototype.createDynamicsCompressor = function () {
+                        var node = this.internal_createDynamicsCompressor();
+                        fixSetTarget(node.threshold);
+                        fixSetTarget(node.knee);
+                        fixSetTarget(node.ratio);
+                        fixSetTarget(node.reduction);
+                        fixSetTarget(node.attack);
+                        fixSetTarget(node.release);
+                        return node;
+                    };
+
+                    AudioContext.prototype.internal_createBiquadFilter = AudioContext.prototype.createBiquadFilter;
+                    AudioContext.prototype.createBiquadFilter = function () {
+                        var node = this.internal_createBiquadFilter();
+                        fixSetTarget(node.frequency);
+                        fixSetTarget(node.detune);
+                        fixSetTarget(node.Q);
+                        fixSetTarget(node.gain);
+                        return node;
+                    };
+
+                    if (AudioContext.prototype.hasOwnProperty('createOscillator')) {
+                        AudioContext.prototype.internal_createOscillator = AudioContext.prototype.createOscillator;
+                        AudioContext.prototype.createOscillator = function () {
+                            var node = this.internal_createOscillator();
+                            if (!node.start)
+                                node.start = node.noteOn;
+                            if (!node.stop)
+                                node.stop = node.noteOff;
+                            fixSetTarget(node.frequency);
+                            fixSetTarget(node.detune);
+                            return node;
+                        };
+                    }
+                }
+            }(window));
+
+            /* Now my code (C) 2014 Richard Atkinson
+             */
+			
+			
+			var myText = document.getElementById('mytext');
+			var mySlider = document.getElementById('cutoff');
+
+			
+			 
+			var started = 0;
+            var gate = 0;
+            var oscEnable = [1, 1, 1];
+
+			var oscType = [2, 2, 2];
+
+			var oscPulseWidth = [0.25, 0.25, 0.25];
+
+			var oscAttack = [0, 0, 0];
+			var oscDecay = [0, 0, 0];
+			var oscSustain = [1, 1, 1];
+			var oscRelease = [0, 0, 0];
+			
+			var smallAmplitude = 0.001;
+
+            var oscFrequency = [160, 160, 160];
+
+            var fineFrequency = [-16, 0 , +16];
+
+            var fineTune = 1000000 / 16777216;
+
+            var onoffText = ["off", "on"];
+
+			var filterEnable = [1, 1, 1];
+			
+			var filterFrequency = 2560;
+			
+			var filterResonance = 1;
+
+            var gain = Math.pow(10, -0.5);
+
+            var filterType = 0;
+            var filterArray = [0, 2, 1, 6, 7];
+            var filterText = ["lowpass", "bandpass", "highpass", "notch", "allpass"];
+			
+			var oscArray = [0, 3, 2, 1]
+            var oscText = ["sine", "square", "sawtooth", "triangle"];
+            var pulseLength = 4096;
+            var pulseA = new Float32Array(pulseLength);
+            var pulseB = new Float32Array(pulseLength);
+            var pulseWidth = 0.25;
+
+            for (var i = 0; i < pulseLength; i++) {
+                pulseA[i] = (Math.sin(2 * Math.PI * i * pulseWidth) / (i * Math.PI));
+                pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * pulseWidth)) / (i * Math.PI));
+            }
+
+			var waveShapeLength = 3;
+			var waveShape = new Float32Array(waveShapeLength);
+			var waveShaperOn = 0;
+			
+			
+			var waveShapeLow = -1;
+			var waveShapeHigh = 1;
+
+			function diodeEquation(x) {
+				return Math.pow(Math.E, x) - 1;
+			}
+			
+			function setWaveShape (waveShapeLow, waveShapeHigh) {
+			
+				var halfSum = (diodeEquation(waveShapeHigh) + diodeEquation(waveShapeLow)) / 2;
+				var halfDifference = (diodeEquation(waveShapeHigh) - diodeEquation(waveShapeLow)) / 2;
+
+			
+				for (var i = 0; i < waveShapeLength; i++) {
+					var x = waveShapeLow + ((i / (waveShapeLength - 1)) * (waveShapeHigh - waveShapeLow));
+					waveShape[i] = (diodeEquation(x) - halfSum) / halfDifference;
+				}
+				
+			}
+			
+			setWaveShape(waveShapeLow, waveShapeHigh);
+
+            var context = new AudioContext(); // Create audio container
+
+            var oscillators = [context.createOscillator(), context.createOscillator(), context.createOscillator()]; // Create sound sources
+            var gainNodes = [context.createGain(), context.createGain(), context.createGain()];
+
+            var filterNode = context.createBiquadFilter();
+
+            var gainNode4 = context.createGain();
+			
+			var waveShaperNode = context.createWaveShaper();
+
+            var myPeriodicWave = context.createPeriodicWave(pulseA, pulseB);
+
+             // sine wave 0, square wave 1, sawtooth wave 2, triangle wave 3
+            oscillators[0].type = oscText[oscArray[oscType[0]]];
+            oscillators[0].frequency.value = oscFrequency[0] + fineFrequency[0] * fineTune; // frequency in Hz
+            gainNodes[0].gain.value = 0;
+
+            oscillators[1].type = oscText[oscArray[oscType[1]]];
+            oscillators[1].frequency.value = oscFrequency[1] + fineFrequency[1] * fineTune;
+            gainNodes[1].gain.value = 0;
+
+
+            oscillators[2].type = oscText[oscArray[oscType[2]]];
+            oscillators[2].frequency.value = oscFrequency[2] + fineFrequency[2] * fineTune;
+            gainNodes[2].gain.value = 0;
+
+            filterNode.Q.value = filterResonance;
+            filterNode.frequency.value = filterFrequency;
+            filterNode.gain.value = 0;
+            filterNode.type = filterType;
+
+            gainNode4.gain.value = gain;
+			
+			waveShaperNode.curve = waveShape;
+
+            oscillators[0].connect(gainNodes[0]); // Connect sound to output
+            oscillators[1].connect(gainNodes[1]);
+            oscillators[2].connect(gainNodes[2]);
+            gainNodes[0].connect(filterNode);
+            gainNodes[1].connect(filterNode);
+            gainNodes[2].connect(filterNode);
+            filterNode.connect(gainNode4);
+			gainNode4.connect(context.destination);
+
+
+			function turnOnVoice(voice) {
+			
+				var now = context.currentTime;
+				gainNodes[voice].gain.cancelScheduledValues(now);
+				gainNodes[voice].gain.setValueAtTime(gainNodes[voice].gain.value, now);
+				gainNodes[voice].gain.linearRampToValueAtTime(1, now + (0.002 * Math.pow(2, oscAttack[voice] * 12)));
+				gainNodes[voice].gain.exponentialRampToValueAtTime(oscSustain[voice], now + (0.002 * Math.pow(2, oscAttack[voice] * 12)) + (0.006 * Math.pow(2, oscDecay[voice] * 12)));
+			}
+				
+			function turnOffVoice(voice) {
+			
+				var now = context.currentTime;
+				gainNodes[voice].gain.cancelScheduledValues(now);
+				gainNodes[voice].gain.setValueAtTime(gainNodes[voice].gain.value, now);
+				gainNodes[voice].gain.exponentialRampToValueAtTime(smallAmplitude, now + (0.006 * Math.pow(2, oscRelease[voice] * 12)));
+			}
+				
+
+            function startStop() {
+			
+				if (started == 0) {
+			
+					started = 1;
+					gate = 1;
+			
+					oscillators[0].start(0); // Play instantly
+					oscillators[1].start(0); // play
+					oscillators[2].start(0);
+
+					if (oscEnable[0] == 1) { turnOnVoice(0); }
+					if (oscEnable[1] == 1) { turnOnVoice(1); }
+					if (oscEnable[2] == 1) { turnOnVoice(2); }
+				
+				} else {
+				
+					gate = 1 - gate;
+
+					if (gate == 1) {
+				
+						if (oscEnable[0] == 1) { turnOnVoice(0); }
+						if (oscEnable[1] == 1) { turnOnVoice(1); }
+						if (oscEnable[2] == 1) { turnOnVoice(2); }
+
+					} else {
+				
+						if (oscEnable[0] == 1) { turnOffVoice(0); }
+						if (oscEnable[1] == 1) { turnOffVoice(1); }
+						if (oscEnable[2] == 1) { turnOffVoice(2); }
+
+					}
+			
+				}
+			}
+
+			function waveShaper() {
+			
+				waveShaperOn = 1 - waveShaperOn;
+				
+				if (waveShaperOn == 1) {
+					gainNode4.disconnect;
+					gainNode4.connect(waveShaperNode);
+					waveShaperNode.connect(context.destination);
+
+				} else {
+
+					waveShaperNode.disconnect;
+					gainNode4.disconnect;
+					// gainNode4.connect(context.destination);
+				}
+
+				// myText.innerHTML = "waveShape[0] " + waveShape[0] + " waveShape[2048] " + waveShape[2048] + " waveshape[4096] " + waveShape[4096] + " waveShapeLow " + waveShapeLow + " waveShapeHigh " + waveShapeHigh + " diode(wSL) " + diodeEquation(waveShapeLow) + " diode(wSH) " + diodeEquation(waveShapeHigh) + " waveShaperOn " + waveShaperOn;
+
+				
+			}
+
+
+
+			function oscButton(osc) {
+				oscEnable[osc] = 1 - oscEnable[osc];
+			
+				if (gate == 1) {
+					if (oscEnable[osc] == 1) {
+						turnOnVoice(osc);
+					} else {
+						turnOffVoice(osc);
+					}
+				}
+			}
+			
+			function filterButton(osc) {
+				filterEnable[osc] = 1 - filterEnable[osc];
+			
+				if (filterEnable[osc] == 1) {
+					gainNodes[osc].disconnect();
+					gainNodes[osc].connect(filterNode);
+				} else {
+					gainNodes[osc].disconnect();
+					gainNodes[osc].connect(gainNode4);
+				}
+			}
+			
+            function setCoarseTune(osc) {
+				var idText = 'coarse' + osc;
+                var myValue = document.getElementById(idText).value;
+
+                oscFrequency[osc] = 20 * Math.pow(2, myValue / 12);
+                oscillators[osc].frequency.value = oscFrequency[osc] + fineFrequency[osc] * fineTune;
+
+            }
+			
+            function setFineTune(osc) {
+				var idText = 'fine' + osc;
+                var myValue = document.getElementById(idText).value;
+
+                fineFrequency[osc] = myValue;
+                oscillators[osc].frequency.value = oscFrequency[osc] + fineFrequency[osc] * fineTune;
+
+            }
+			
+			function setWaveForm(osc) {
+				var idText = 'waveform' + osc;
+				var myValue = document.getElementById(idText).value;
+                oscType[osc] = myValue;
+				
+				if (oscType[osc] == 4) {
+					oscillators[osc].setPeriodicWave(myPeriodicWave);
+				} else {
+					oscillators[osc].type = oscText[oscArray[oscType[osc]]];
+				}
+            }
+			
+            function setPulseWidth(osc) {
+				var idText = 'pulsewidth' + osc;
+                var myValue = document.getElementById(idText).value;
+                oscPulseWidth[osc] = myValue / 128;
+
+                for (var i = 0; i < pulseLength; i++) {
+                    pulseA[i] = (Math.sin(2 * Math.PI * i * oscPulseWidth[osc]) / (i * 4));
+                    pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * oscPulseWidth[osc])) / (i * 4));
+                }
+
+                myPeriodicWave = context.createPeriodicWave(pulseA, pulseB);
+
+                if (oscType[osc] == 4) {
+                    oscillators[osc].setPeriodicWave(myPeriodicWave);
+                }
+            }
+			
+            function setAttack(osc) {
+				var idText = 'attack' + osc;
+                var myValue = document.getElementById(idText).value;
+
+                oscAttack[osc] = myValue / 15;
+            }
+			
+            function setDecay(osc) {
+                var idText = 'decay' + osc;
+				var myValue = document.getElementById(idText).value;
+
+                oscDecay[osc] = myValue / 15;
+            }
+			
+            function setSustain(osc) {
+                var idText = 'sustain' + osc;
+				var myValue = document.getElementById(idText).value;
+
+                oscSustain[osc] = myValue / 15;
+				if (oscSustain[osc] == 0) {
+				oscSustain[osc] = smallAmplitude;
+				}
+            }
+			
+            function setRelease(osc) {
+                var idText = 'release' + osc;
+				var myValue = document.getElementById(idText).value;
+
+                oscRelease[osc] = myValue / 15;
+            }
+			
+			for (i = 0; i < 3; i++) {
+			
+				var idText = 'oscillator' + i;
+				document.getElementById(idText).onclick = (function() {
+					var osc = i;
+					return function() { oscButton(osc); }
+				}) ();
+				
+				idText = 'filter' + i;
+				document.getElementById(idText).onclick = (function() {
+					var osc = i;
+					return function() { filterButton(osc); }
+				}) ();
+				
+				idText = 'coarse' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setCoarseTune(osc); }
+				}) ();
+				
+				idText = 'fine' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setFineTune(osc); }
+				}) ();
+				
+				idText = 'waveform' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setWaveForm(osc); }
+				}) ();				
+				
+				idText = 'pulsewidth' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setPulseWidth(osc); }
+				}) ();
+				
+				idText = 'attack' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setAttack(osc); }
+				}) ();
+				
+				idText = 'decay' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setDecay(osc); }
+				}) ();
+				
+				idText = 'sustain' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setSustain(osc); }
+				}) ();
+				
+				idText = 'release' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setRelease(osc); }
+				}) ();
+			}
+			
+
+
+
+
+            function setCutoffFrequency() {
+                var myValue = document.getElementById('cutoff').value;
+
+                filterFrequency = 20 * Math.pow(2, myValue / 12);
+                filterNode.frequency.value = filterFrequency;
+
+            }
+
+            function setResonance() {
+                var myValue = document.getElementById('resonance').value;
+
+                filterResonance = Math.pow(10, myValue / 10);
+                filterNode.Q.value = filterResonance;
+
+            }
+
+            function setFilterType() {
+				var myValue = document.getElementById('filtertype').value;
+                filterType = myValue;
+
+                filterNode.type = filterText[filterType];
+
+            }
+			
+            function setPostFilterGain() {
+                var myValue = document.getElementById('postfiltergain').value;
+
+                gain = Math.pow(10, (myValue - 120) / 40);
+                gainNode4.gain.value = gain;
+
+            }
+
+			function setWaveShaperGain() {
+				var myValue = document.getElementById('waveshapergain').value;
+				waveShapeLow = - Math.pow(10, (myValue - 60) / 60);
+				waveShapeHigh = Math.pow(10, (myValue - 60) / 60);
+				
+				setWaveShape(waveShapeLow, waveShapeHigh);
+				waveShaperNode.curve = waveShape;
+				
+			}
+			
+        </script>
+
+
+    </div>
+</body>
+
+</html>

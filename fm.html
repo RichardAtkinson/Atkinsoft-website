@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+
+	<link href="atkinsoft.css" rel="stylesheet">
+		
+    <title>Yamaha FM synthesis projects</title>
+
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Richard Atkinson</h1>
+
+		<ul class="links">
+			<li><a href="sega.html">Sega Master System</a></li>
+			<li><a href="spectrum.html">Sinclair ZX Spectrum</a></li>
+			<li><a href="ts2068.html">Timex Sinclair 2068</a></li>
+			<li><a href="synclavier.html">Synclavier II</a></li>
+			<li><a href="stewartlee.html">Stewart Lee</a></li>
+			<li><a href="sid.html">Commodore SID</a></li>
+			<li>Yamaha FM</li>
+			<li><a href="audio.html">Web Audio</a></li>
+		</ul>
+
+	</div>
+		
+    <div class="content">
+		<h2>Yamaha FM synthesis projects</h2>
+
+		<p class="description">Yamaha's FM sound chips were popular on the MSX series of home computers and on the PC as the AdLib and SoundBlaster standards. One was also used in the Commodore Sound Expander for the C64, and in the game Lagrange Point by Konami for the Nintendo Famicom. There are several chips with closely related capabilities. YM3526 OPL was the first. It has 9 voices with two operators each. Y8950 MSX-AUDIO is an expanded version of YM3526 with an ADPCM sample channel and a keyboard interface. YM3812 OPLII is a small enhancement over YM3526 and YM2413 OPLL is a cut down version of YM3812. YMF262 OPL3 is based on a pair of YM3812 chips with some extensions and YMF278 OPL4 adds a wavetable facility.</p>
+		<p class="description">I have long wanted to program the sounds on the Yamaha FM sound chips using an analogue synthesizer style control interface - i.e. with a knob or button for every parameter. So in 2013 I wrote some software for the SoundBlaster cards using a MIDI control surface, in this case an Evolution U-Control UC-16, and a polyphonic note assignment algorithm. This video shows the software being used to program the YMF262 OPL3 inside the SoundBlaster AWE64, using the Evolution control surface for programming the sounds and a Yamaha V50 MIDI keyboard to play the notes.</p>
+
+		<div class="videodiv">
+
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/4tzLk4cRR68" frameborder="0" allowfullscreen></iframe>
+			
+		</div>
+		<p class="description">It is also possible to play notes with this software using a MIDI sequencer. In this video Windows Media Player is used as a MIDI sequencer, and the Evolution U-Control UC-16 control surface is used to program the sounds.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/M_sPAZZGtsI" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<p class="description">Another video showing the software being controlled using a MIDI sequencer, this time playing a sequence of the first movement of Brandenburg no. 3. The Evolution U-Control UC-16 control surface is used to program the sounds.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/eKZhpS7HkuI" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<p class="description">This image shows the FM parameters available using this software on the MIDI control surface.</p>
+		<div class="imagediv"><img src="images/1292947_10100638298157540_1053218834_o.jpg" height=675 width=900></div>
+		<p class="description">Finally, to prove that my code for writing to the FM chip registers was working, I wrote an emulation of a famous Synclavier II sound for the YM3812 OPLII sound chip.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/3Yuk6kYX4S0" frameborder="0" allowfullscreen></iframe>
+		</div>
+
+
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,672 @@
+<html>
+
+<head>
+    <!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+		
+	<link href="atkinsoft.css" rel="stylesheet">
+
+    <title>Simple Web Audio 3 oscillator synthesizer</title>
+
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Richard Atkinson</h1>
+
+		<ul class="links">
+			<li><a href="sega.html">Sega Master System</a></li>
+			<li><a href="spectrum.html">Sinclair ZX Spectrum</a></li>
+			<li><a href="ts2068.html">Timex Sinclair 2068</a></li>
+			<li><a href="synclavier.html">Synclavier II</a></li>
+			<li><a href="stewartlee.html">Stewart Lee</a></li>
+			<li><a href="sid.html">Commodore SID</a></li>
+			<li><a href="fm.html">Yamaha FM</a></li>
+			<li>Web Audio</li>
+		</ul>
+
+	</div>
+		
+    <div class="content">
+	<h2>Web Audio MOS 6581 SID simulation</h2>
+	<p class="description">Polyphonic, object oriented version of audio.html</p>
+	<p class="description">This is a Web Audio simulation of my software for the HardSID card. Every button or slider on this interface (except the Start / Stop button) corresponds to a button or knob on the Behringer BCR2000 MIDI control surface which is used to control the SID sounds. In the HardSID version, the pitch and duration of the note can be controlled using a MIDI keyboard or sequencer.</p>
+	<p class="description">Some differences exist between the capabilities of the Web Audio software synthesizer and the MOS 6581 digital/analogue hardware synthesizer. Rather than emulate SID exactly, this simulation allows some Web Audio characteristics to be explored, and also reveals differences between browser implementations (Chrome and Firefox).</p>
+	<p class="description">Filter cutoff may be varied between 20 Hz - 20 kHz. Resonance may be varied up to 1000, which is an enormous value for any hardware resonant filter. This will distort the output of the Web Audio simulation, so to reduce the final output gain a Volume slider is provided (equivalent to register $18 in the SID). Filter modes are low pass, band pass, high pass, notch and all pass in the Web Audio simulation and the oscillator waveforms available are sine, triangle, sawtooth, square and pulse.</p>
+	</div>
+	
+	<div class="webaudiosynth">
+
+	<div class="row">
+			<button id="stop" onclick="startStop()">Start / Stop</button>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Global controls</p>
+			<div class="slider">Cutoff<br><input id="cutoff" type="range" min="0" max="120" step="1" value="84" orient="vertical" oninput="setCutoffFrequency()" /></div>
+			<div class="slider">Resonance<br><input id="resonance" type="range" min="-40" max="30" step="1" value="0" orient="vertical" oninput="setResonance()" /></div>
+			<div class="slider">Filter mode<br><input id="filtertype" type="range" min="0" max="4" step="1" value="0" orient="vertical" oninput="setFilterType()"  /></div>
+			<div class="slider">Volume<br><input id="postfiltergain" type="range" min="0" max="30" step="1" value="25" orient="vertical" oninput="setPostFilterGain()" /></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext"></p>
+			<div class="button"><button id="filter0">Filter osc 1</button></div>
+			<div class="button"><button id="filter1">Filter osc 2</button></div>
+			<div class="button"><button id="filter2">Filter osc 3</button></div>
+		</div>
+		<div class="row">
+			<p class="inbetweentext"></p>
+			<div class="button"><button id="oscillator0">Osc 1 on/off</button></div>
+			<div class="button"><button id="oscillator1">Osc 2 on/off</button></div>
+			<div class="button"><button id="oscillator2">Osc 3 on/off</button></div>
+			<p class="inbetweentext"></p>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator one</p>
+	
+			<div class="slider">Coarse tune<br><input id="coarse0" type="range" min="-60" max="60" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Fine tune<br><input id="fine0" type="range" min="-64" max="63" step="1" value="-16" orient="vertical"/></div>
+			<div class="slider">Waveform<br><input id="waveform0" type="range" min="0" max="4" step="1" value="2" orient="vertical"/></div>
+			<div class="slider">Pulse width<br><input id="pulsewidth0" type="range" min="0" max="127" step="1" value="32" orient="vertical"/></div>
+			<div class="slider">Attack<br><input id="attack0" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Decay<br><input id="decay0" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Sustain<br><input id="sustain0" type="range" min="0" max="15" step="1" value="15" orient="vertical"/></div>
+			<div class="slider">Release<br><input id="release0" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<p class="inbetweentext"></p>
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator two</p>
+			<div class="slider">Coarse tune<br><input id="coarse1" type="range" min="-60" max="60" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Fine tune<br><input id="fine1" type="range" min="-64" max="63" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Waveform<br><input id="waveform1" type="range" min="0" max="4" step="1" value="2" orient="vertical"/></div>
+			<div class="slider">Pulse width<br><input id="pulsewidth1" type="range" min="0" max="127" step="1" value="32" orient="vertical"/></div>
+			<div class="slider">Attack<br><input id="attack1" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Decay<br><input id="decay1" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Sustain<br><input id="sustain1" type="range" min="0" max="15" step="1" value="15" orient="vertical"/></div>
+			<div class="slider">Release<br><input id="release1" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<p class="inbetweentext"></p>
+
+		</div>
+		<div class="row">
+			<p class="inbetweentext">Oscillator three</p>
+			<div class="slider">Coarse tune<br><input id="coarse2" type="range" min="-60" max="60" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Fine tune<br><input id="fine2" type="range" min="-64" max="63" step="1" value="16" orient="vertical"/></div>
+			<div class="slider">Waveform<br><input id="waveform2" type="range" min="0" max="4" step="1" value="2" orient="vertical"/></div>
+			<div class="slider">Pulse width<br><input id="pulsewidth2" type="range" min="0" max="127" step="1" value="32" orient="vertical"/></div>
+			<div class="slider">Attack<br><input id="attack2" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Decay<br><input id="decay2" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<div class="slider">Sustain<br><input id="sustain2" type="range" min="0" max="15" step="1" value="15" orient="vertical"/></div>
+			<div class="slider">Release<br><input id="release2" type="range" min="0" max="15" step="1" value="0" orient="vertical"/></div>
+			<p class="inbetweentext"></p>
+		</div>
+
+		<div class="row">
+			<p class="inbetweentext"></p>
+		</div>
+
+    </div>
+		
+        <script>
+
+
+            /* Now my code (C) 2014 Richard Atkinson
+             */
+			
+
+            var context = new AudioContext(); // Create audio container
+
+			// define synthesizer voice
+			
+			var started = 0; // start oscillators - for iOS compatibility
+			var gate = 0; // overall gate while still in testing mode - turn all voices on and off together
+			
+			function synthesizerVoice (context) {
+			
+				var filterFrequency = 5120;
+				var resonance = 1;
+				var filterMode = 0;
+				var filterArray = [0, 2, 1, 6, 7];
+				var filterText = ["lowpass", "bandpass", "highpass", "notch", "allpass"];
+				var gain = Math.pow(10, -0.5);
+				
+				var pitchReference = 440;
+				var noteValue = 0;
+				var gate = 0;
+				var coarseTune = [0, 0, 0];
+				var fineTune = [-15, 0, +9];
+				var fineTuneCoefficient = 1000000 / 16777216;
+				var waveform = [2, 2, 2];
+				
+				var oscArray = [0, 3, 2, 1];
+				var oscText = ["sine", "square", "sawtooth", "triangle"];
+				
+				var pulseWidth = [0.25, 0.25, 0.25];
+				
+				// create three local periodicWaves, one for each oscillator
+	
+				var pulseLength = 4096;
+				var pulseA = new Float32Array(pulseLength);
+				var pulseB = new Float32Array(pulseLength);
+				
+				var pulseWavePeriodicWave = [];
+				
+				for (var i = 0; i < 3; i++) {
+				
+					for (var j = 0; j < pulseLength; j++) {
+						pulseA[j] = (Math.sin(2 * Math.PI * j * pulseWidth[i]) / (j * Math.PI));
+						pulseB[j] = ((1 - Math.cos(2 * Math.PI * j * pulseWidth[i])) / (j * Math.PI));
+					}
+					
+					pulseWavePeriodicWave[i] = context.createPeriodicWave(pulseA, pulseB);
+                }
+				
+				var oscEnable = [1, 1, 1];
+				
+				var attack = [0, 0, 0];
+				var decay = [0, 0, 0];
+				var sustain = [1, 1, 1];
+				var release = [0, 0, 0];
+				var smallAmplitude = 0.001;
+				
+				var oscillator = [context.createOscillator(), context.createOscillator(), context.createOscillator()];
+				var gainNode = [context.createGain(), context.createGain(), context.createGain()];
+				var filterNode = context.createBiquadFilter();
+				var postFilterGain = context.createGain();
+				
+				function setFrequency(osc) {
+					oscillator[osc].frequency.value = pitchReference * Math.pow(2, (noteValue + coarseTune[osc]) / 12) + fineTune[osc] * fineTuneCoefficient;
+				}
+				
+				this.setNoteValue = function (value) {
+					noteValue = value;
+					for (var i = 0; i < 3; i++) {
+					setFrequency(i);
+					}
+					setFilterFrequency(); // 100% keyboard filter tracking
+				}
+				
+				this.setCoarseTune = function (osc, value) {
+					coarseTune[osc] = value;
+					setFrequency(osc);
+				}
+				
+				this.setFineTune = function (osc, value) {
+					fineTune[osc] = value;
+					setFrequency(osc);
+				}
+				
+				function setWaveform(osc) {
+					// needs to catch the case where waveform[osc] = 4, pulse wave
+					if (waveform[osc] == 4) {
+						oscillator[osc].setPeriodicWave(pulseWavePeriodicWave[osc]);
+					} else {
+						oscillator[osc].type = oscText[oscArray[waveform[osc]]];
+					}
+				}
+				
+				this.setWaveform = function (osc, value) {
+					waveform[osc] = value;
+					setWaveform(osc);
+				}
+				
+				
+				function setPulseWidth(osc, periodicWave) {
+
+					if (waveform[osc] == 4) {
+						oscillator[osc].setPeriodicWave(periodicWave);
+					}
+				
+				}
+				
+				this.setPulseWidth = function(osc, periodicWave) {
+					// store locally
+					pulseWavePeriodicWave[osc] = periodicWave;
+
+					setPulseWidth(osc, periodicWave);
+				
+				}
+				
+				function setAttack(osc) {
+				// Nothing to do at the moment; instantaneous slider changes don't affect envelope generators
+				}
+				
+				this.setAttack = function(osc, value) {
+					attack[osc] = value;
+					setAttack(osc);
+				}
+				
+				function setDecay(osc) {
+				// Nothing to do at the moment; instantaneous slider changes don't affect envelope generators
+				}
+				
+				this.setDecay = function(osc, value) {
+					decay[osc] = value;
+					setDecay(osc);
+				}
+				
+				function setSustain(osc) {
+				
+				// Nothing to do at the moment; instantaneous slider changes don't affect envelope generators
+				}
+				
+				this.setSustain = function(osc, value) {
+					sustain[osc] = value;
+					if (sustain[osc] == 0) {
+						sustain[osc] = smallAmplitude;
+					}
+					setSustain(osc);
+				}
+				
+				function setRelease(osc) {
+				// Nothing to do at the moment; instantaneous slider changes don't affect envelope generators
+				}
+				
+				this.setRelease = function(osc, value) {
+					release[osc] = value;
+					setRelease(osc);
+				}
+				
+				// this is the gain for the individual oscillators, to be controlled by envelope generators
+				
+				function setOscillatorGain(osc) {
+					gainNode[osc].gain.value = 0;
+				}
+				
+				this.toggleOscillatorEnable = function(osc) {
+					oscEnable[osc] = 1 - oscEnable[osc];
+					
+					if (gate = 1) { // this voice currently turned on, must turn on or off envelope generator
+						if (oscEnable[osc] == 1) { // oscillator just turned on
+							turnOnEnvelopeGenerator(osc);
+						} else { // oscillator just turned off
+							turnOffEnvelopeGenerator(osc);
+						}
+					}
+				}
+				
+				
+				function setFilterFrequency() {
+					// 100% keyboard filter tracking
+					filterNode.frequency.value = filterFrequency * Math.pow(2, noteValue / 12);
+				}
+				
+				this.setFilterFrequency = function (value) {
+					filterFrequency = value;
+					setFilterFrequency();
+				}
+				
+				function setResonance() {
+					filterNode.Q.value = resonance;
+				}
+				
+				this.setResonance = function (value) {
+					resonance = value;
+					setResonance();
+				}
+				
+				function setFilterType() {
+					filterNode.type = filterText[filterMode];
+				}
+				
+				this.setFilterType = function (value) {
+					filterMode = value;
+					setFilterType();
+				}
+				
+				function setPostFilterGain() {
+					postFilterGain.gain.value = gain;
+				}
+				
+				this.setPostFilterGain = function (value) {
+					gain = value;
+					setPostFilterGain();
+				}
+				
+				// set up oscillators with default values, connect oscillators to gains, gains to filter
+				
+				for (var i = 0; i < 3; i++) {
+					setFrequency(i);
+					setWaveform(i);
+					setPulseWidth(i);
+					setOscillatorGain(i);
+					oscillator[i].connect(gainNode[i]);
+					gainNode[i].connect(filterNode);
+				}
+				
+				// set up filter and post filter gain
+				
+				setFilterFrequency();
+				setResonance();
+				setFilterType();
+				setPostFilterGain();
+				
+				// connect filter to final gain, final gain to destination
+				
+				filterNode.connect(postFilterGain);
+				postFilterGain.connect(context.destination);
+				
+				// functions for starting oscillators, turning voice on and off, envelope generators
+				
+				this.start = function() {
+					for (i = 0; i < 3; i++) {
+						oscillator[i].start(0);
+						
+					}
+				}
+				
+				this.gateOn = function() {
+					gate = 1;
+					for (i = 0; i < 3; i++) {
+						if (oscEnable[i] == 1) { // turn on envelope generators where oscillators are enabled
+							turnOnEnvelopeGenerator(i);
+						}
+					}
+				}
+				
+				this.gateOff = function() {
+					gate = 0;
+					for (i = 0; i < 3; i++) {
+						if (oscEnable[i] == 1) { // turn off envelope generators where oscillators are enabled
+							turnOffEnvelopeGenerator(i);
+						}
+					}
+				}
+				
+				function turnOnEnvelopeGenerator(osc) {
+				
+					var now = context.currentTime;
+					gainNode[osc].gain.cancelScheduledValues(now);
+					var currentGain = gainNode[osc].gain.value;
+					gainNode[osc].gain.setValueAtTime(currentGain, now);
+					gainNode[osc].gain.linearRampToValueAtTime(1, now + (0.002 * Math.pow(2, attack[osc] * 12)));
+					gainNode[osc].gain.exponentialRampToValueAtTime(sustain[osc], now + (0.002 * Math.pow(2, attack[osc] * 12)) + (0.006 * Math.pow(2, decay[osc] * 12)));
+					
+				}
+				
+				function turnOffEnvelopeGenerator(osc) {
+				
+					var now = context.currentTime;
+					var currentGain = gainNode[osc].gain.value;
+					gainNode[osc].gain.cancelScheduledValues(now);
+					gainNode[osc].gain.setValueAtTime(currentGain, now);
+					gainNode[osc].gain.exponentialRampToValueAtTime(smallAmplitude, now + (0.006 * Math.pow(2, release[osc] * 12)));
+
+				}
+			
+			}
+
+			// end of synthesizer voice definition
+			
+			
+			
+			// create synthesizer voice instances
+			
+			var numberOfVoices = 3;
+			
+			// create two Float32Array for PeriodicWave calculations for pulse waveform
+			
+			var pulseLength = 4096;
+			var pulseA = new Float32Array(pulseLength);
+			var pulseB = new Float32Array(pulseLength);
+			var pulseWidth = 0.25; // do I need this? when does pulse waveform get set up?
+			
+			var myVoices = [];
+			
+			for (var i = 0; i < numberOfVoices; i++) {
+				myVoices[i] = new synthesizerVoice(context);
+			}
+
+			// define functions for osc enable buttons, coarse tune, fine tune, waveform, pulse width, attack, decay, sustain, release sliders
+			
+			function toggleOscillatorEnable(osc) {
+			
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].toggleOscillatorEnable(osc); // make sure this deals with envelope generators properly
+				}
+			}
+				
+			
+			function setCoarseTune(osc) {
+				var idText = 'coarse' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setCoarseTune(osc, sliderValue);
+				}
+			}
+			
+			function setFineTune(osc) {
+				var idText = 'fine' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setFineTune(osc, sliderValue);
+				}
+			}
+			
+			function setWaveform(osc) {
+			
+				var idText = 'waveform' + osc;
+				var sliderValue = document.getElementById(idText).value;
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setWaveform(osc, sliderValue);
+				}
+			}
+			
+			function setPulseWidth(osc) {
+			
+				var idText = 'pulsewidth' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				// do my pulse width calculation here and pass to the voices
+
+				var pulseWidth = sliderValue / 128;
+				
+				for (var i = 0; i < pulseLength; i++) {
+					pulseA[i] = (Math.sin(2 * Math.PI * i * pulseWidth) / (i * Math.PI));
+					pulseB[i] = ((1 - Math.cos(2 * Math.PI * i * pulseWidth)) / (i * Math.PI));
+				}
+				
+				var periodicWave = context.createPeriodicWave(pulseA, pulseB);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setPulseWidth(osc, periodicWave);
+				}
+			}
+			
+			function setAttack(osc) {
+				var idText = 'attack' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setAttack(osc, sliderValue / 15);
+				}
+			}
+			
+			function setDecay(osc) {
+				var idText = 'decay' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setDecay(osc, sliderValue / 15);
+				}
+			}
+			
+			function setSustain(osc) {
+                var idText = 'sustain' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setSustain(osc, sliderValue / 15);
+				}
+			}
+			
+			function setRelease(osc) {
+				var idText = 'release' + osc;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setRelease(osc, sliderValue / 15);
+				}
+			}
+			
+			// attach slider functions to each slider for three oscillators 
+			
+			for (i = 0; i < 3; i++) {
+				
+				var idText = 'oscillator' + i;
+				document.getElementById(idText).onclick = (function() {
+					var osc = i;
+					return function() { toggleOscillatorEnable(osc); }
+				}) ();
+
+				idText = 'coarse' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function () { setCoarseTune(osc); }
+				}) ();
+				
+				idText = 'fine' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function () { setFineTune(osc); }
+				}) ();
+				
+				idText = 'waveform' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function () { setWaveform(osc); }
+				}) ();
+				
+				idText = 'pulsewidth' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function () { setPulseWidth(osc); }
+				}) ();
+				
+				idText = 'attack' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setAttack(osc); }
+				}) ();
+				
+				idText = 'decay' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setDecay(osc); }
+				}) ();
+				
+				idText = 'sustain' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setSustain(osc); }
+				}) ();
+				
+				idText = 'release' + i;
+				document.getElementById(idText).oninput = (function() {
+					var osc = i;
+					return function() { setRelease(osc); }
+				}) ();
+				
+				
+			}
+			
+			
+			
+			
+			// manually set pitch of second and third voice to something else
+			
+			myVoices[0].setNoteValue(-12);
+			
+			myVoices[1].setNoteValue(-8);
+			
+			myVoices[2].setNoteValue(-5);
+			
+			
+			
+			// directly attached startStop button, cutoff, resonance, filter type, post filter gain sliders
+			
+			function startStop() {
+			
+				// this should start all voices
+				if (started == 0) {
+					started = 1;
+					for (var i = 0; i < numberOfVoices; i++) {
+						myVoices[i].start();
+					}
+				}
+				
+				gate = 1 - gate; // global gate value while in testing mode
+				
+				if (gate == 1) {
+				
+					for (var i = 0; i < numberOfVoices; i++) {
+						myVoices[i].gateOn();
+					}
+				}
+				
+				if (gate == 0) {
+					for (var i = 0; i < numberOfVoices; i++) {
+						myVoices[i].gateOff();
+					}
+				}
+				
+			}
+			
+			function setCutoffFrequency() {
+			
+				// this should set cutoff frequency of all voices, value varies from 0 to 120
+				
+				var sliderValue = document.getElementById('cutoff').value;
+				var cutoffFrequency = 20 * Math.pow(2, sliderValue / 12);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setFilterFrequency(cutoffFrequency);
+				}
+			}
+			
+			function setResonance() {
+			
+				// this should set resonance of all voices, value varies from -40 to 30
+			
+				var sliderValue = document.getElementById('resonance').value;
+				var resonance = Math.pow(10, sliderValue / 10);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setResonance(resonance);
+				}
+			}
+			
+			function setFilterType() {
+			
+				// this should set filter mode of all voices
+				
+				var sliderValue = document.getElementById('filtertype').value;
+			
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setFilterType(sliderValue);
+				}
+			}
+			
+			function setPostFilterGain() {
+			
+				// this should set gain of all voices, value varies from 0 - 30
+				
+				var sliderValue = Number(document.getElementById('postfiltergain').value);
+				var gain = Math.pow(10, (sliderValue - 30) / 10);
+				
+				for (var i = 0; i < numberOfVoices; i++) {
+					myVoices[i].setPostFilterGain(gain);
+				}
+			}
+			
+
+        </script>
+
+
+
+</body>
+
+</html>
