@@ -1,7 +1,8 @@
 		body {
 		background: black;
 		color: white;
-		font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+		font-family: 'Open Sans', sans-serif;
+		// font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
 		// font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 
 		}
@@ -25,7 +26,7 @@
 		color: white;
 		width: 640px;
 		margin: 0 auto;
-
+		font-family: 'Open Sans', sans-serif;
 
 		}
 		

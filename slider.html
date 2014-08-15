@@ -21,7 +21,7 @@
 		height: 256px;
 		position: relative;
 		text-align: center;
-		
+		max-width: 640px;
 		}
 		
 		h1 {
@@ -60,7 +60,9 @@
 		color: white;
 		}
 		.content {
-
+		color: white;
+		max-width: 640px;
+		
 		}
 		</style>
 	</head>
@@ -90,11 +92,13 @@
 
 
 			<br>
-			<input type="range" id="slider" min="0" max="120" step="1" value="60" oninput="onInput()">
+			<input type="range" id="slider" min="0" max="120" step="1" value="60" oninput="onInput()">Frequency
 			<br>
-			<input type="range" id="detune" min="-64" max="63" step="1" value="4" oninput="detune()">
+			<input type="range" id="detune" min="-64" max="63" step="1" value="4" oninput="detune()">Detune
 			<br>
-			<input type="range" id="cutoff" min="0" max="120" step="1" value="60" oninput="myCutoff()">
+			<input type="range" id="cutoff" min="0" max="120" step="1" value="60" oninput="myCutoff()">Cutoff
+			<br>
+			<input type="range" id="resonance" min="-40" max="30" step="1" value="0" oninput="myResonance()">Resonance
 
 			<p id="oninput">On Input messages</p>
 
@@ -192,6 +196,15 @@
 			
 			filterNode.frequency.value = cutoff;
 
+			}
+			
+			function myResonance() {
+			var myValue = document.getElementById('resonance').value;
+			
+			var Q = Math.pow(10, myValue / 10);
+			
+			filterNode.Q.value = Q;
+			
 			}
 			
 		</script>

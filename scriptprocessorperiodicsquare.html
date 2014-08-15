@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ScriptProcessor example</title>
+		<style>
+			input[type=range]
+			{
+			-webkit-appearance: slider-vertical;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Simple ScriptProcessor example</h1>
+		<p>Quick example to show a scriptprocessor being used to generate an arbitrary periodic waveform, in this case a square wave, properly band-limited to half the sample rate. The script processor sums a series of sine waves with the appropriate Fourier coefficients. The output of the scriptprocessor is connected to a BiquadFilter with cutoff and resonance controls, and the output of the filter is connected to the destination.</p>
+		<input type="range" id="frequency" min="0" max="120" step="1" value="36" orient="vertical" />
+		<input type="range" id="cutoff" min="0" max="120" step="1" value="120" orient="vertical" oninput="setCutoffFrequencySlider()" />
+		<input type="range" id="resonance" min="-40" max="30" step="1" value="0" orient="vertical" oninput="setResonanceSlider()" />
+		<script>
+			var sampleRate = 44100;
+			var coefficientArray = [];
+			for (var i = 1; i < 4096; i += 2) {
+				coefficientArray[i] = Math.pow(-1, (i + 1) / 2) / (i * Math.PI);
+				console.log("coefficient " + i + " is " + coefficientArray[i]);
+				coefficientArray[i + 1] = 0;
+			}
+			var context = new AudioContext();
+			var scriptProcessorNode = context.createScriptProcessor(4096, 0, 1);
+			var phaseAccumulator = 0;
+			
+			scriptProcessorNode.onaudioprocess = function (event) {
+				var frequencyValue = document.getElementById('frequency').value;
+				
+				var output = event.outputBuffer.getChannelData(0);
+				
+				var frequencyHz = 20 * Math.pow(2, frequencyValue / 12);
+				
+				var phaseIncrement = frequencyHz / sampleRate;
+				
+				var maxHarmonic = Math.floor((sampleRate / 2) / frequencyHz);
+				
+				// console.log("maxHarmonic is " + maxHarmonic);
+				
+
+				
+				for (var i = 0; i < output.length; i++) {
+					var outputValue = 0;
+					for (var j = 1; j <= maxHarmonic; j++) {
+						outputValue += Math.sin(2 * Math.PI * phaseAccumulator * j) * coefficientArray[j];
+					}
+					output[i] = outputValue;
+					phaseAccumulator += phaseIncrement;
+					if (phaseAccumulator > 1) {
+						phaseAccumulator -= 1;
+					}
+				}
+			}
+			var filterNode = context.createBiquadFilter();
+			
+			scriptProcessorNode.connect(filterNode);
+			
+			function setCutoffFrequency(cutoffValue) {
+				filterNode.frequency.value = 20 * Math.pow(2, cutoffValue / 12);
+			}
+			
+			setCutoffFrequency(120);
+			
+			function setResonance(resonanceValue) {
+				filterNode.Q.value = Math.pow(10, resonanceValue / 10);
+			}
+			
+			setResonance(0);
+			
+			filterNode.type = "lowpass";
+			
+			filterNode.connect(context.destination);
+			
+			function setCutoffFrequencySlider() {
+				var cutoffValue = document.getElementById('cutoff').value;
+				setCutoffFrequency(cutoffValue);
+			}
+			
+			function setResonanceSlider() {
+				var resonanceValue = document.getElementById('resonance').value;
+				setResonance(resonanceValue);
+			}
+			
+			
+		</script>
+	</body>
+</html>
