@@ -1,0 +1,133 @@
+
+		<h2>S-video on Timex Sinclair 2068</h2>
+		<p class="description">This is a video about an S-video modification for the Timex Sinclair 2068. S-video gives better picture quality than composite video because the black and white (luminance) information is transmitted separately from the colour (chrominance) information rather than being combined in the same signal and separated in the television. The design compromises in composite video date back to 1954 and the American NTSC colour television standard, basically the colour information was squeezed into the black and white picture as a series of fine dots. Using the same bandwidth for both signals meant that the colour standard would be compatible with black and white televisions using existing black and white television channels, but problems occur when trying to separate the two signals because it is impossible to separate them perfectly once they have been combined.</p>
+		<p class="description">Two problems occur with composite video pictures which are attributable to the separation process. The first is unseparated chrominance information remaining in the luminance channel, visible in the final picture as a stationary or moving dot pattern and sometimes called "dot crawl". The second is unseparated luminance information remaining in the chrominance channel, and this can be seen as spurious colour fringes on vertical black and white transitions such as text.</p>
+		<p class="description">In this video I demonstrate an S-video circuit for the TS2068 which had just been prototyped.</p>
+		<div class="videodiv">
+
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/CGLuisNo39o" frameborder="0" allowfullscreen></iframe>
+			
+		</div>
+		<h2>Switchable TS2068 / Spectrum ROM</h2>
+		<p class="description">In November 2013 I finished a switchable TS2068 / Spectrum ROM modification and implemented it on two TS2068s. It uses a 32K EPROM chip for the HOME ROM and a 16K EPROM chip for the EX ROM. The channel 2 / 3 switch on the underside of the case is re-purposed as a ROM select switch. It controls the upper address bit on the two EPROMs.</p>
+
+		<p class="description">The Timex halves of the two EPROMs are completely standard TS2068 ROM images. The Spectrum half of the HOME EPROM is a very slightly modified version of the Spectrum ROM, modified to reset port 0xF4 and 0xFF on startup. The Spectrum half of the EX EPROM is a very slightly modified version of the Timex EX ROM, modified to jump to the START-NEW location in the Spectrum ROM on startup instead of the Timex HOME ROM location.</p>
+
+		<p class="description">These modifications are necessary to ensure that the computer starts up every time reliably when in Spectrum mode. Unfortunately it is not possible to boot reliably on a TS2068 from a 100% exact Spectrum ROM.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/UX4Z9dKKqpE" frameborder="0" allowfullscreen></iframe>
+		</div>
+		
+		<p class="description">These are the images for the EPROMs used in the switchable TS2068 modification.</p>
+
+		<p class="description"><a href="Switchable_TS2068_27256.rom">Switchable TS2068 27256.rom</a></p>
+
+		<p class="description"><a href="Switchable_TS2068_27128.rom">Switchable TS2068 27128.rom</a></p>
+
+		<p class="description">The Timex halves of the two EPROMs are completely standard TS2068 ROM images. The Spectrum half of the HOME EPROM is a very slightly modified version of the Spectrum ROM, modified to reset port 0xF4 and 0xFF on startup. The Spectrum half of the EX EPROM is a very slightly modified version of the Timex EX ROM, modified to jump to the START-NEW location in the Spectrum ROM on startup instead of the Timex HOME ROM location.</p>
+
+		<p class="description">These modifications are necessary to ensure that the computer starts up every time reliably when in Spectrum mode. Unfortunately it is not possible to boot reliably on a TS2068 from a 100% exact Spectrum ROM.</p>
+
+		<p class="description">In the Spectrum 48K half of the 27256 EPROM image, the standard Spectrum 48K ROM is patched as follows:</p>
+
+		<pre>11D0    3E 3F       LD A, 0x3F
+11D2    ED 47       LD I, A
+11D4    00          NOP
+11D5    00          NOP
+11D6    00          NOP
+11D7    00          NOP
+11D8    00          NOP</pre>
+
+		<p class="description">becomes:</p>
+
+		<pre>11D0    AF          XOR A
+11D1    D3 F4       OUT (0xF4), A
+11D3    D3 FF       OUT (0xFF), A
+11D5    3E 3F       LD A, 0x3F
+11D7    ED 47       LD I, A</pre>
+
+		<p class="description">In the Spectrum 48K half of the 27128 EPROM image, the standard TS2068 EX ROM is patched as follows:</p>
+
+		<pre>0057    C3 31 0D    JP 0x0D31</pre>
+
+		<p class="description">becomes:</p>
+
+		<pre>0057    C3 CB 11    JP 0x11CB</pre>
+		
+		<p class="description">The motivation for putting a Spectrum 48K ROM in a Timex Sinclair 2068 is to be able to run Spectrum 48K software. Whereas there are probably less than 100 Timex Sinclair 2068 programs, there are more than 10,000 Spectrum 48K programs. The Spectrum 48K ROM is also somewhat faster than the Timex Sinclair 2068 ROM and has fewer bugs. It therefore provides a good platform for exploring the TS2068's extra video modes.</p>
+
+		<p class="description">To perform the modification, the components connected to the channel 2 / 3 switch need to be removed and the switch re-used as a ROM select switch. Take the TS2068 apart by undoing the seven case screws on the underside of the machine and unplugging the keyboard membrane from its header on the PCB. There are two sizes of case screw so preserve where each screw went. Then undo the three screws holding the PCB onto the bottom half of the case and take out the PCB. Take the cover off the RF modulator shield and examine the inside.</p>
+
+		<p class="description">Remove C46, R57 and R56 by desoldering them from the PCB and removing them with pliers. These three components are connected to the channel 2 side of the switch. and are in a line in the top left corner of the shield to the right of the solder pads for the switch itself. Leave C47 in - this will provide a useful anchor point to connect +5V to on the underside of the PCB (the solder side). Remove R28 and R24. These are the next two components down after C47. Finally, remove R58. This is the component to the left of the bottom pin of the channel switch.</p>
+
+		<div class="imagediv"><img src="images/IMG_0717.JPG" height="612" width="816"></div>
+
+		<div class="imagediv"><img src="images/IMG_0729.JPG" height="612" width="816"></div>
+
+		<p class="description">Solder a link wire in the pads where C46 used to be. This connects the channel 2 side of the switch to GND. I used black plastic covered wire to indicate that this wire is at ground potential. On the underside of the PCB, solder another link wire between the side of C47 connected to the switch and a +5V point. This connects the channel 3 side of the switch to +5V. Looking at the underside of the PCB, it is the leg of C47 on the right. A suitable +5V point to use is the top leg of Q2 - this has a thick trace snaking away from it to the left and down.</p>
+
+		<div class="imagediv"><img src="images/IMG_0719.JPG" height="612" width="816"></div>
+				
+		<div class="imagediv"><img src="images/IMG_0731.JPG" height="612" width="816"></div>
+		
+		<p class="description">Now the switch provides +5V or GND, the next step is to take this signal to the ROM sockets and reconfigure them for EPROMs instead of mask ROMs.</p>
+
+		<p class="description">On the standard machine, jumpers W1 and W2 are fitted in the centre of the PCB. This connects MREQ# to CS# on the HOME ROM and ROMCS# to pin 27 of the HOME ROM. The mask ROM in the standard machine has an output enable pin at this location. The ROM is decoded by three signals, MREQ# connected to CS#, ROMCS# connected to OE1# and RD# connected to OE0#.</p>
+
+		<p class="description">In the modified machine, a 27256 EPROM is used for the HOME ROM. Pin 27 becomes A14 which is connected to the channel 2 / 3 switch. ROMCS# is connected to CS# (pin 20) and MREQ# is connected to OE# (pin 22).</p>
+
+		<p class="description">Remove jumpers W1 and W2 and solder a link wire between the bottom left pad and the top right pad. This connects ROMCS# on the bottom left to CS# (pin 20 of the HOME ROM) on the top right.</p>
+
+		<p class="description">Solder a wire from the pole of the channel 2 / 3 switch to the bottom right jumper pad. This connects the new ROM select signal to A14 of the new HOME EPROM (pin 27).</p>
+
+		<p class="description">On the underside of the PCB, cut the track between pins 26 and 27 of the EX ROM socket. On the component side of the PCB, cut the track leading from pin 26 of the EX ROM socket to the left. On the standard machine this carries RD# to pins 26 and 27 of the EX ROM. The track is best cut just below the text for C43 on the PCB, where it emerges between a pair of vias.</p>
+
+		<div class="imagediv"><img src="images/IMG_0715.JPG" height="612" width="816"></div>
+
+		<div class="imagediv"><img src="images/IMG_0726.JPG" height="612" width="816"></div>
+
+		<p class="description">In the modified machine, a 27128 EPROM is used for the EX ROM. Solder a wire from pin 27 of the HOME ROM socket to pin 26 of the EX ROM socket. This connects the new ROM select signal to A13 of the new EX EPROM.</p>
+
+		<p class="description">Solder a wire from pin 28 of the HOME ROM socket to pin 1 of the same socket. Solder a wire from pin 28 of the EX ROM socket to pin 1 of the same socket and to pin 27 of that socket. These wires carry +5V from pin 28 (Vcc) to pin 1 (Vpp) of the EPROMs and also to pin 27 of the EX EPROM (PGM#).</p>
+
+		<div class="imagediv"><img src="images/IMG_0720.JPG" height="612" width="816"></div>
+		
+		<div class="imagediv"><img src="images/IMG_0732.JPG" height="612" width="816"></div>
+		
+		<p class="description">Next, cut the track above and to the right of the top right jumper pad. In the standard machine this carries RD# to pin 22 of the HOME ROM. Solder a wire from the top left jumper pad to pin 22 of the HOME ROM socket. This connects MREQ# to OE# of the new EPROM.</p>
+		
+		<div class="imagediv"><img src="images/IMG_0714.JPG" height="612" width="816"></div>
+		
+		<div class="imagediv"><img src="images/IMG_0724.JPG" height="612" width="816"></div>
+		
+		<p class="description">Now the machine is ready for the two EPROMs. Remove the original Timex mask ROMs from the two ROM sockets and install a 27256 EPROM programmed with the file "Switchable TS2068 27256.rom" into the HOME ROM socket. Install a 27128 EPROM programmed with the file "Switchable TS2068 27128.rom" into the EX ROM socket.</p>
+
+		<p class="description">Test the machine at this point by connecting a power supply and a composite video display to the PCB and turn the power switch on. It should boot up in one of the two modes, Spectrum 48K or Timex Sinclair 2068, depending on which position the channel 2 / 3 switch is in. Spectrum 48K mode is the channel 2 position and Timex Sinclair 2068 mode is the channel 3 position. You can mark the case to this effect if you like.</p>
+		
+		<div class="imagediv"><img src="images/IMG_0713.JPG" height="612" width="816"></div>
+
+		<div class="imagediv"><img src="images/IMG_0721.JPG" height="612" width="816"></div>
+
+		<p class="description">Assuming all is well, put the PCB back in the lower half of the case, put the PCB screws back in, reconnect the keyboard and put the case screws back in. Enjoy your switchable Timex Sinclair 2068 in its original mode and in its new Spectrum 48K compatible mode.</p>		
+		
+		<h2>TS2068 running with original Spectrum ROM</h2>
+		<p class="description">Part way through doing the switchable ROM mod on the first TS2068, before the EPROMs were ready, I fitted an original Spectrum ROM from an Issue Two Spectrum into the HOME ROM socket of the TS2068, just to see what the end result would be like. The EX ROM socket was empty. The computer would boot some of the time, sometimes into the normal boot screen and sometimes with a black screen. Other times it wouldn't boot at all.</p>
+		
+		<p class="description">This proved the necessity of the EPROMs; sometimes it was booting into HOME ROM space, other times into EX ROM space. When it did boot into HOME ROM space, sometimes the screen mode was set to the normal Spectrum mode with attributes, other times it was set to the alternate screen or one of the hi colour screens. It was sometimes possible to type OUT 255, 0 into BASIC without seeing the characters on the screen and get the normal screen mode, but it was easier just to keep power cycling the machine a few more times until it booted into the normal screen mode.</p>
+		
+		<p class="description">This video shows the TS2068 running with an original Spectrum ROM in the HOME ROM socket, playing Jet Set Willy.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/VMbqx6S8qSo" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<h2>Inside the Timex Sinclair 2068</h2>
+		<p>Also while doing the switchable ROM mod, I made a short video showing the inside of the TS2068. The Issue Two Spectrum ROM can be seen in the HOME ROM socket and the EX ROM socket is empty.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/VXVt9lxSC2Y" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<h2>16 colours on Timex Sinclair 2068</h2>
+		<p class="description">One of the surprises when learning about the TS2068 from a Spectrum user's point of view is the colour set. The Timex SCLD develops a different set of colours on its Y, U and V pins compared with the Spectrum ULA. The differences can be put down to differences in the NCR CMOS gate array pad driver circuitry compared with the Ferranti ULA pad drivers, or perhaps it wasn't seen as necessary to copy the Spectrum ULA colours exactly. The most noticeable difference is in bright black, which is quite a bit lighter than normal black on the TS2068, whereas on the Spectrum they are the same. The other colours are also significantly lighter, becoming pastel like in some cases. The Y signal on the TS2068 seems to be generated by a 3 bit digital to analogue converter, with equal steps between the 8 colours, and bright seems to be implemented as an extra LSB worth of voltage added across all the bright colours including black.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/1tJ1qIMcTUE" frameborder="0" allowfullscreen></iframe>
+		</div>
+
+

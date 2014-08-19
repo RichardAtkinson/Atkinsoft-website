@@ -1,50 +1,66 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="atkinsoftSite">
 
-<head>
-    <!--
-		<link href="normalize.css" rel="stylesheet">
-		-->
-	<link href="atkinsoft.css" rel="stylesheet">
+	<head>
+		<!--
+			<link href="normalize.css" rel="stylesheet">
+			-->
+		<link type="text/css" rel="stylesheet" href="atkinsoft.css" />
+		<script type="text/javascript" src="angular.min.js"></script>
+		<script type="text/javascript" src="app.js"></script>
 	
-    <title>Richard Atkinson</title>
+		<title>Richard Atkinson</title>
 
-</head>
+	</head>
 
-<body>
-	<div class="heading">
-		<h1>Richard Atkinson</h1>
+	<body ng-controller="TabController as tabCtrl">
+		<div class="heading">
+			<h1><a href ng-click="tabCtrl.setTab(0)">Richard Atkinson</a></h1>
 
-		<ul class="links">
-			<li><a href="sega.html">Sega Master System</a></li>
-			<li><a href="spectrum.html">Sinclair ZX Spectrum</a></li>
-			<li><a href="ts2068.html">Timex Sinclair 2068</a></li>
-			<li><a href="synclavier.html">Synclavier II</a></li>
-			<li><a href="stewartlee.html">Stewart Lee</a></li>
-			<li><a href="sid.html">Commodore SID</a></li>
-			<li><a href="fm.html">Yamaha FM</a></li>
-			<li><a href="audio.html">Web Audio</a></li>
-		</ul>
-
-	</div>
+			<ul class="links">
+				<li ng-class="{ active: tabCtrl.isCurrentTab(1) }"><a href ng-click="tabCtrl.setTab(1)">Sega Master System</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(2) }"><a href ng-click="tabCtrl.setTab(2)">Sinclair ZX Spectrum</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(3) }"><a href ng-click="tabCtrl.setTab(3)">Timex Sinclair 2068</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(4) }"><a href ng-click="tabCtrl.setTab(4)">Synclavier II</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(5) }"><a href ng-click="tabCtrl.setTab(5)">Stewart Lee</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(6) }"><a href ng-click="tabCtrl.setTab(6)">Commodore SID</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(7) }"><a href ng-click="tabCtrl.setTab(7)">Yamaha FM</a></li>
+				<li ng-class="{ active: tabCtrl.isCurrentTab(8) }"><a href ng-click="tabCtrl.setTab(8)">Web Audio</a></li>
+			</ul>
 		
-    <div class="content">
-		<h2>Welcome to my page of projects</h2>
-		<p class="description">Please select from one of the above links.</p>
-		<p class="description">Further projects not yet documented:</p>
-		<p class="description">Spectrum +3 improved mono audio</p>
-		<p class="description">Spectrum +2 four audio outputs</p>
-		<p class="description">Timex Sinclair 1500 composite video</p>
-		<p class="description">Universal Commodore 64 internal second SID board</p>
-		<p class="description">Commodore VIC-20 S-video & improved audio</p>
-		<p class="description">Commodore 16 64K expansion</p>
-		<p class="description">Atari 800XL & 1200XL S-video</p>
-		<p class="description">Atari 600XL 64K expansion</p>
-		<p class="description">Toshiba HX-10 MSX S-video & six channel audio</p>
-		<p class="description">Switchable Konami MSX SCC multi game cartridge</p>
-		<p class="description">Nintendo NES stereo audio & Famicom three audio outputs</p>
-		<p class="description">Tandy Colour Computer S-video (NTSC & PAL) & composite video (NTSC)</p>
 
-    </div>
-</body>
+		</div>
+		
+		<div class="content" ng-show="tabCtrl.isCurrentTab(0)">
+			<index-content></index-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(1)">
+			<sega-content></sega-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(2)">
+			<sinclair-content></sinclair-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(3)">
+			<timex-content></timex-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(4)">
+			<synclavier-content></synclavier-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(5)">
+			<stewart-lee-content></stewart-lee-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(6)">
+			<sid-content></sid-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(7)">
+			<fm-content></fm-content>
+		</div>
+		<div class="content" ng-show="tabCtrl.isCurrentTab(8)">
+			<audio-content></audio-content>
+		</div>
+		<div class="webaudiosynth" ng-show="tabCtrl.isCurrentTab(8)">
+			<web-audio-synth></web-audio-synth>
+		</div>
+	</body>
 
 </html>

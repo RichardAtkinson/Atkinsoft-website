@@ -1,0 +1,167 @@
+		<h2>Sega Master System BASIC with keyboard and FM sound expansion</h2>
+		<p class="description">I first acquired a Sega Master System in 1992. Before then I only had Sinclair ZX Spectrums, and since then I have acquired many other machines. Ever since I first got the Master System I have wanted to program it, and so in 2013 I built a keyboard interface to connect a Sega SC-3000H keyboard to the Master System. This interface is the same one used in the Japanese SK-1100 keyboard for the Sega SG-1000 Mark II and Mark III consoles, and it works with Sega BASIC Level II and Level III for those machines, but these were never sold in Europe.</p>
+		<p class="description">Furthermore, I also wanted to implement a stereo Yamaha YM2413 OPLL FM sound expansion on the same interface. In Japan an FM sound unit could be bought for the Sega Mark III, but it occupied the same expansion port connector as the SK-1100 keyboard so you couldn't have both interfaces connected at once. The Japanese Sega Master System has the FM sound included on the main circuit board, but it lacks that expansion connector altogether so you can't use the SK-1100 keyboard with it.</p>
+		<p class="description">Since the keyboard interface chip and the FM sound chip occupy different I/O locations there was no technical reason why you couldn't have both on the same expansion, and indeed write to the FM chip from BASIC Level III, and so I set out to build such a device. This video shows the finished prototype. The main purpose of this video is to demonstrate that it is the Master System running BASIC, by switching into the Master System's native screen mode (VDP mode 4) and demonstrating the colours.</p>
+		<div class="videodiv">
+
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/FEt1tM-OwZQ" frameborder="0" allowfullscreen></iframe>
+			
+		</div>
+		<p class="description">There is a <a href="http://www.smspower.org/forums/viewtopic.php?t=14515">thread at SMS Power!</a> discussing this project.</p>
+		<p class="description">I also made this video to show the Master System writing to the FM sound chip in BASIC. The program writes a series of notes to the FM sound chip, using the built-in sounds of the Yamaha YM2413 OPLL sound chip. It is playing several voices at once, with a bit of detune between each one to create a chorus effect.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/8swf4nrbQDs" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<p class="description">Before I had the keyboard interface working, I made this video to show the FM sound interface running a Master System game. Many European Master System games contain sound code for both FM and the usual 3 channel square wave chip, and if the game detects an FM interface it will use that instead of the usual sound chip. No FM sound interfaces were sold in Europe, but the code is in many games which were developed in Japan, and also in a few which were developed in the US before it became clear that Sega would not be releasing the FM sound interface in the US. This video shows the game Casino Games.</p>
+		<div class="videodiv">
+			<iframe width="853" height="480" src="http://www.youtube.com/embed/zEev31PzqpM" frameborder="0" allowfullscreen></iframe>
+		</div>
+
+		<p class="description">To document the patching of Sega BASIC Level III to get it to run on the European Master System, I wrote a series of blog posts. These are included here for technical information.</p>
+
+		<h2>BASIC on the Sega Master System</h2>
+		
+		<p class="description">I decided to do some hacking on the Sega Master System, to see if I could get it running BASIC. It has long been a dream of mine to program the Master System. When I first got my Master System in 1992, I saw it as an upgrade on the ZX Spectrum I previously used, the kind of upgrade on the graphics I had wanted since the Spectrum 128K came out in 1986. I didn't know anything about the differences between the two machines back then, about sprite graphics, hardware scrolling, tile mode versus bitmap mode graphics, but the Master System taught me about those.</p>
+
+		<p class="description">In principle it should be very simple running BASIC on the Master System. The Master System is backwards compatible with an earlier console called the SG-1000 and a home computer called the SC-3000. Versions of BASIC exist for both the SG-1000 with SK-1100 keyboard attachment and the SC-3000.</p>
+
+		<p class="description">However, the Master System I have is a UK PAL version, referred to by Sega in their documentation as an Export version, and that has a completely different cartridge slot from the Japanese models. Furthermore, the BIOS in export Master Systems checks for the presence of a ROM header in the last 16 bytes of a cartridge, checks that the ROM is intended for export Master Systems and performs a checksum on the ROM. Domestic (i.e. Japanese) Master System cartridges and all SG-1000 and SC-3000 cartridges (whether domestic or export) do not contain this header.</p>
+
+		<p class="description">Thus, my UK PAL Master System will not run SG-1000 BASIC Level 2 or SC-3000 BASIC Level 3 images without some hacking.</p>
+
+		<p class="description">First I tried running BASIC Level 2 and BASIC Level 3 images in my Tototek flash cartridge. The Tototek DreamWriter software had problems identifying the ROM images; it seems it too was relying on the header information, and the lack of a header in the ROMs was causing DreamWriter to make incorrect assumptions about the images.</p>
+
+		<p class="description">So first I tried patching the images using a hex editor to include a correct export version header. This would be something like:</p>
+
+		<p class="preformatted">54 4D 52 20 53 45 47 41 20 20 -- -- 00 00 00 4C</p>
+
+		<p class="description">where -- -- is the checksum of the image (from $0000 - $7FEF for 32K ROMs) in little endian format.</p>
+
+		<p class="description">Well this worked for the DreamWriter software, and I was able to load BASIC Level 2 and BASIC Level 3 into my flash cartridge, correctly recognised as 32K ROMs. These ROMs would now start in the Master System, but they didn't get as far as the Ready prompt. BASIC Level 2 would give a black screen with a repeating single beep error code and BASIC Level 3 would give a black screen with a repeating double beep error code.</p>
+
+		<p class="description">So I disassembled the two ROMs and found the cause of BASIC Level 2's single beep. There is a checksum routine in the code of BASIC Level 2. It sums all the contents of the ROM from $0000 to $7FFF and checks that the least significant byte of the result is zero. Looking at the final 16 bytes of the ROM before I inserted the header, most of the unused bytes in the ROM are FF but the final byte in the ROM is something else - 38h. This was clearly intended to make that checksum byte equal zero.</p>
+
+		<p class="description">Since there's already a checksum operating on this ROM at BIOS level now, I decided to remove the jump for this now redundant checksum and after updating the checksum in the header to account for this change to the ROM, the BASIC Level 2 image would now run in my flash cartridge, giving the following startup screen.</p>
+
+		<div class="imagediv"><img src="images/IMG_0739.JPG" height="612" width="816"></div>
+
+		<div class="imagediv"><img src="images/IMG_0744.JPG" height="612" width="816"></div>
+
+		<p class="description">The 32K ROM now works fine and the image runs as a BASIC Level IIA cartridge, with 2K internal RAM at $C000 - $C7FF.</p>
+
+		<p class="description">I couldn't get BASIC Level 3 to work, however. Even with the checksum jump patched out and the correct header in place, it would fail with a two beep error code. So I studied the BASIC Level 3 RAM checking routines and I found one of the first things BASIC Level 3 does is set the stack pointer to 8B30h. A few instructions later it does some stack operations and checks to see that the stack can be written to and read from properly. If this fails, then it jumps to the two beep error code routine.</p>
+
+		<p class="description">So BASIC Level 3 expects to find, and indeed relies on, RAM at $8000 - $BFFF. I decided to build a cartridge to support BASIC Level 3, using a game cartridge PCB, a 27256 EPROM and a 62256 SRAM. I used a Miracle Warriors PCB, mainly because it provides two sockets, one for the ROM and one for the RAM. Using the pinout diagrams now available on www.smspower.org I worked out that there were four pins that needed changing on the ROM socket and four on the RAM socket. I took out the battery and battery backup circuit, made three PCB track cuts and made the new connections with wire. A 74LS32 quad 2 input OR gate was used to decode the address ranges for the EPROM and SRAM. The EPROM goes at $0000 - $7FFF, fortunately there is a signal M0-7# on the cartridge slot which goes low in this address range when MREQ# is low. I combined this with the chip enable pin for that cartridge slot, CE3#, using one of the OR gates and applied the result to the CS# pin on the EPROM. I connected the output enable pin OE# to RD# of the Z80 processor. For the SRAM I used the address range $8000 - $BFFF and the signal M8-B#. This was combined with CE3# in the same way and the RAM socket already had OE# connected to RD# and WE# connected to WR#.</p>
+
+		<div class="imagediv"><img src="images/IMG_0759.JPG" height="612" width="816"></div>
+
+		<div class="imagediv"><img src="images/IMG_0757.JPG" height="612" width="816"></div>
+
+		<p class="description">The Japanese version of the Master System / Mark III and the SC-3000 computer all have a signal on the cartridge slot called CSRAM# which allows the internal SRAM in the console to be disabled. That's how BASIC Level IIIB disables the internal 2K SRAM of the SC-3000 in the $C000 - $FFFF address space and puts 16K DRAM in that space. The export Master System has no such signal on the cartridge slot; instead the internal 8K RAM in that address space can be disabled by writing a bit to I/O port 3Eh. However, this requires that any cartridge that wishes to put RAM in that space has a 315-5235 mapper chip, so that the cartridge RAM can be enabled only once the internal RAM has been disabled.</p>
+
+		<p class="description">My simple EPROM and SRAM cartridge has no mapper chip and so half of the 32K SRAM is unused in this design. BASIC has access to RAM at $8000 - $BFFF from the cartridge and at $C000 - $DFFF from the internal RAM (mirrored at $E000 - $FFFF). This comes to a total of 24K, higher than the 18K of BASIC Level IIIA but lower than the 32K of BASIC Level IIIB. The machine actually has 40K of RAM in total, but only half of the 32K SRAM is accessible.</p>
+
+		<p class="description">I tried this cartridge with a BASIC Level 3 ROM image burnt onto an EPROM and it still failed with a two beep error code so I tried an SMS Boot Loader EPROM I had previously burnt and that worked fine so confirming that the address decoding for the EPROM worked okay. Next I tried a BASIC Level 2 ROM image and got this screen:</p>
+		
+		<div class="imagediv"><img src="images/IMG_0752.JPG" height="612" width="816"></div>
+		
+		<div class="imagediv"><img src="images/IMG_0754.JPG" height="612" width="816"></div>
+		
+		<p class="description">This is the startup screen for BASIC Level IIB. Having now studied the RAM checking routines in BASIC Level 2, it looks for 2K of RAM between $C000 - $C7FF and 2K of RAM between $8000 - $87FF. It runs as BASIC Level IIB (with 2043 bytes free) if it finds both and as Level IIA (with 515 bytes free) if it only finds the latter. It fails with a two beep error code if it doesn't find any RAM at all, and with a three beep error code if the 16K VRAM is not working properly.</p>
+
+		<p class="description">So both my EPROM and SRAM address decoding were working fine. I wondered if the different RAM size in my design versus the original BASIC Level IIIA and IIIB cartridges was causing the problem so I examined the BASIC Level 3 RAM checking routine and sure enough, it had been hard coded to write to RAM at $C000 and then at $C800, and see whether separate results could be stored at those two locations. If they could, it assumed it was running on a 32K RAM machine and if they couldn't, it assumed 18K RAM. My 24K system was passing the test at $C800 and so BASIC Level 3 was assuming a 32K machine and failing another memory test later on. So I modified the code to check $C000 and $E000 instead, for 24K RAM, and finally BASIC Level 3 booted.</p>
+		
+		<div class="imagediv"><img src="images/IMG_0765.JPG" height="612" width="816"></div>
+		
+		<p class="description">In conclusion, for now at least, I have a 24K version of BASIC Level 3 running on my Sega Master System. I still need to put together a keyboard to type on this system; for now you can type a few characters on the 12 switches of two control pads, but it really needs an SC-3000 keyboard with an Intel 8255 PPI chip and a 74LS145 open collector decoder/driver to read the keyboard properly. I have some ideas about how to build one of these reversibly out of an SC-3000H computer and connect it to this Master System which I will try next. I also have some ideas about doing some more ROM hacking to BASIC Level 3 to get my Tototek flash cartridge to recognise it as a 32K ROM 32K RAM cartridge with the 315-5235 mapper hardware emulated at the appropriate addresses.</p>
+		
+		<h2>EPROM images for BASIC on the Sega Master System</h2>
+		
+		<p class="description">Here are the images I've used for running BASIC on the Master System.</p>
+
+		<p class="description"><a href="Sega_BASIC_Level_2_(SC-3000)_export_header_checksum_removed.sms">Sega_BASIC_Level_2_(SC-3000)_export_header_checksum_removed.sms</a></p>
+
+		<p class="description"><a href="Sega_BASIC_Level_3_V1_(SC-3000)_export_header_checksum_removed.sms">Sega_BASIC_Level_3_V1_(SC-3000)_export_header_checksum_removed.sms</a></p>
+
+		<p class="description"><a href="Sega_BASIC_Level_3_V1_(SC-3000)_export_header_checksum_removed_24K.sms">Sega_BASIC_Level_3_V1_(SC-3000)_export_header_checksum_removed_24K.sms</a></p>
+
+		<p class="description">The first of these is BASIC Level 2 with the export header added and the jump for the checksum routine removed. This image runs as BASIC Level IIA with 515 bytes free on a machine with 2K (or more) internal RAM at $C000 - $FFFF, and as BASIC Level IIB with 2043 bytes free on a machine with 2K (or more) RAM at $8000 - $BFFF in addition to the RAM at $C000.</p>
+
+		<p class="preformatted">639C    C20963    JP NZ, 6309h // checksum first 32K - check bottom 8 bits of result is 0, jump to one beep error routine if not</p>
+
+		<p class="description">becomes</p>
+
+		<p class="preformatted">639C    00        NOP</p>
+		<p class="preformatted">639D    00        NOP</p>
+		<p class="preformatted">639E    00        NOP</p>
+
+		<p class="description">Header</p>
+
+		<p class="preformatted">7FF0    54 4D 52 20 53 45 47 41 20 20 A9 65 00 00 00 4C</p>
+
+		<p class="description">The second is BASIC Level 3 with the export header added and the jump for the checksum routine removed. This image needs 16K of RAM at $8000 - $BFFF, and will run with 16K, 18K or 32K depending on how much RAM it finds at $C000 - $FFFF. It will run with 10236 bytes free if it finds no RAM at all at $C000, with 12284 bytes free if it finds 2K RAM at $C000 - $C7FF and with 26620 bytes free if it finds 16K RAM at $C000 - $FFFF. Those are the only possibilities it looks for. This image doesn't run on a Master System with 8K RAM at $C000 - $DFFF, because the RAM size detect routine only checks for a 2K SRAM at $C000 - $C7FF. Once that test passes, the routine assumes the machine has a full 16K RAM in $C000 - $FFFF and goes on to fail another memory test on the 8K mirror at $E000 - $FFFF.</p>
+
+		<p class="preformatted">689C    C20968    JP NZ, 6809h // checksum first 32K - check bottom 8 bits of result is 0, jump to one beep error routine if not</p>
+
+		<p class="description">becomes</p>
+
+		<p class="preformatted">689C    00        NOP</p>
+		<p class="preformatted">689D    00        NOP</p>
+		<p class="preformatted">689E    00        NOP</p>
+
+		<p class="description">Header</p>
+
+		<p class="preformatted">7FF0    54 4D 52 20 53 45 47 41 20 20 06 20 00 00 00 4C</p>
+
+		<p class="description">The third is BASIC Level 3 with the export header, the checksum removed and the RAM detect routine modified for 8K of RAM at $C000 - $DFFF. This provides 24K of RAM in total for BASIC, and displays 18428 bytes free on the startup screen.</p>
+
+		<p class="preformatted">68F5    11FFC7    LD DE, C7FFh // check for RAM at C800h, de = last byte of RAM C7FFh</p>
+
+		<p class="preformatted">68FB    26C8      LD H, C8h // now try hl = C800h</p>
+
+		<p class="description">becomes</p>
+
+		<p class="preformatted">68F5    11FFDF    LD DE, DFFFh // check for RAM at E000h, de = last byte of RAM DFFFh</p>
+
+		<p class="preformatted">68FB    26E0      LD H, E0h // now try hl = E000h</p>
+
+		<p class="description">Header</p>
+
+		<p class="preformatted">7FF0    54 4D 52 20 53 45 47 41 20 20 36 20 00 00 00 4C</p>
+
+		<p class="description">I have now also tried running a patched image of BASIC Level 3 that accesses port 3E and memory location FFFC on the Tototek flash cartridge. The idea here, assuming the Tototek cartridge emulates the 315-5235 mapper fully, is to disable the internal RAM and enable 32K of cartridge RAM, the first 16K at $C000 - $FFFF in place of the internal RAM, and the second 16K at $8000 - $BFFF. This used the following additional code:</p>
+
+		<p class="preformatted">0000    3EBB    LD A, BBh</p>
+		<p class="preformatted">0002    D33E      OUT (3Eh), A</p>
+		<p class="preformatted">0004    3E1C      LD A, 1Ch</p>
+		<p class="preformatted">0006    32FCFF    LD (FFFCh), A</p>
+		<p class="preformatted">0009    C30068    JP 6800h</p>
+
+		<p class="description">instead of</p>
+
+		<p class="preformatted">0000    C30068    JP 6800h</p>
+		<p class="preformatted">0003    FF FF FF FF FF FF FF FF FF</p>
+
+		<p class="description">Unfortunately the Tototek cartridge doesn't implement all of the 315-5235 mapper's functionality. 16K RAM appears at $8000 - $BFFF (bit 3 of FFFCh) but nothing appears at $C000 - $FFFF (bit 4 of FFFCh) once the internal RAM is disabled (using bit 4 of port 3Eh). BASIC does run but only detects 16K RAM.</p>
+		
+		<div class="imagediv"><img src="images/IMG_0774.JPG" height="612" width="816"></div>
+		
+		<p class="description">It would be better to leave the internal RAM enabled and use the 24K patch to run BASIC Level 3 on the Tototek cartridge with the same 18428 bytes free as in the home built ROM and RAM cartridge.</p>
+		
+		<h2>ROM image for BASIC Level 3 with 24K on the Tototek SMS-PRO 32M flash cartridge</h2>
+		
+		<p class="description">At the end of the previous post I mentioned that the Tototek SMS-PRO flash cartridge doesn't support bit 4 of memory location FFFCh in the 315-5235 mapper - that's the bit that enables 16K of RAM at $C000 - $FFFF once the Master System's 8K internal RAM has been disabled. Therefore, the best way to run BASIC Level 3 on the Tototek cartridge is to enable 16K of RAM at $8000 - $BFFF and leave the internal 8K of RAM enabled at $C000 - $DFFF. This is a ROM image that does exactly that. I have tested it on my Tototek cartridge and it runs BASIC Level 3 exactly the same as my home built ROM and RAM cartridge, with 18428 bytes free on the startup screen. The patch code is:</p>
+
+		<p class="preformatted">0000    3E08      LD A, 08h</p>
+		<p class="preformatted">0002    32FCFF    LD (FFFCh), A
+		<p class="preformatted">0005    C30068    JP 6800h</p>
+
+		<p class="description">instead of</p>
+
+		<p class="preformatted">0000    C30068    JP 6800h</p>
+		<p class="preformatted">0003    FF FF FF FF FF</p>
+
+		<p class="description">This, combined with the export header, removal of the checksum jump and patch for 24K memory detect routine, allows BASIC Level 3 to run on the Master System using the Tototek cartridge.</p>
+
+		<p class="description"><a href="Sega_BASIC_Level 3_V1_(SC-3000)_export_header_checksum_removed_24K_315-5235_mapper.sms">Sega_BASIC_Level 3_V1_(SC-3000)_export_header_checksum_removed_24K_315-5235_mapper.sms</a></p>
+
