@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <!--
+		<link href="normalize.css" rel="stylesheet">
+		-->
+		
+	<!-- <link href="atkinsoft.css" rel="stylesheet"> -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+
+	<!-- <script src="https://apis.google.com/js/platform.js"></script> -->
+	<script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+	
+    <title>Google Drive example</title>
+
+</head>
+
+<body>
+	<div class="heading">
+		<h1>Google Drive example</h1>
+
+	</div>
+		
+    <div class="content">
+		<!-- <div class="g-savetodrive" data-src="cbl.gif" data-filename="cbl.gif" data-sitename="Atkinsoft Web Audio"></div> -->
+		
+		<script>
+			function onApiLoad() {
+				gapi.load('auth', {'callback': onAuthApiLoad});
+				gapi.load('picker');
+			}
+			
+			function onAuthApiLoad() {
+				window.gapi.auth.authorize({
+					'client-id': '665814640001-1vd99iiqode7rl6a02hs2bvbneci274v.apps.googleusercontent.com',
+					'scope': ['https://www.googleapis.com/auth/drive']
+				}, handleAuthResult);
+			}
+			
+			var oauthToken;
+			
+			function handleAuthResult(authResult) {
+				if (authResult && !authResult.error) {
+					oauthToken = authResult.access_token;
+					createPicker();
+				}
+			}
+			
+			function createPicker() {
+				var picker = new google.picker.PickerBuilder()
+					.setOAuthToken(oauthToken)
+					.setDeveloperKey('AIzaSyCraZW1ggmt-Iyg8SSOVtse-R8UmW0zEFg')
+					.addView(new google.picker.DocsUploadView())
+					.addView(new google.picker.DocsView())
+					.build();
+				picker.setVisible(true);
+			}
+		</script>
+				
+		
+	</div>
+	
+	
+
+
+
+</body>
+
+</html>

@@ -1,24 +1,16 @@
 (function(){
 	var app = angular.module('atkinsoftSite', []);
 
-
-
-	app.controller('TabController', function(){
-	
+	app.controller('TabController', function(){	
 		this.tab = 0;
 		
 		this.setTab = function(newTab){
-		
-			this.tab = newTab;
-			
+			this.tab = newTab;	
 		}
 		
 		this.isCurrentTab = function(currentTab){
-		
 			return currentTab === this.tab;
-			
 		}
-	
 	});
 
 	app.directive('indexContent', function() {

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,8 +8,21 @@
 		
 	<link href="atkinsoft.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+	<link rel="shortcut icon" href="favicon.ico" />
 	<script src="synthesizervoice.js"></script>
-	
+	<!-- <script src="https://apis.google.com/js/platform.js"></script> -->
+	<!-- <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script> -->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-55402552-1', 'auto');
+	  ga('require', 'displayfeatures');
+	  ga('send', 'pageview');
+
+	</script>
     <title>Simple Web Audio 3 oscillator synthesizer</title>
 
 </head>
@@ -31,12 +45,48 @@
 	</div>
 		
     <div class="content">
-	<h2>Web Audio MOS 6581 SID simulation</h2>
-	<p class="description">Polyphonic, object oriented version of audio.html</p>
-	<p class="description">This is a Web Audio simulation of my software for the HardSID card. Every button or slider on this interface (except the Start / Stop button) corresponds to a button or knob on the Behringer BCR2000 MIDI control surface which is used to control the SID sounds. In the HardSID version, the pitch and duration of the note can be controlled using a MIDI keyboard or sequencer.</p>
-	<p class="description">Some differences exist between the capabilities of the Web Audio software synthesizer and the MOS 6581 digital/analogue hardware synthesizer. Rather than emulate SID exactly, this simulation allows some Web Audio characteristics to be explored, and also reveals differences between browser implementations (Chrome and Firefox).</p>
-	<p class="description">Filter cutoff may be varied between 20 Hz - 20 kHz. Resonance may be varied up to 1000, which is an enormous value for any hardware resonant filter. This will distort the output of the Web Audio simulation, so to reduce the final output gain a Volume slider is provided (equivalent to register $18 in the SID). Filter modes are low pass, band pass, high pass, notch and all pass in the Web Audio simulation and the oscillator waveforms available are sine, triangle, sawtooth, square and pulse.</p>
+		<h2>Web Audio MOS 6581 SID simulation</h2>
+		<p class="description">Polyphonic, object oriented version of audio.html</p>
+		<p class="description">This is a Web Audio simulation of my software for the HardSID card. Every button or slider on this interface (except the Start / Stop button) corresponds to a button or knob on the Behringer BCR2000 MIDI control surface which is used to control the SID sounds. In the HardSID version, the pitch and duration of the note can be controlled using a MIDI keyboard or sequencer.</p>
+		<p class="description">Some differences exist between the capabilities of the Web Audio software synthesizer and the MOS 6581 digital/analogue hardware synthesizer. Rather than emulate SID exactly, this simulation allows some Web Audio characteristics to be explored, and also reveals differences between browser implementations (Chrome and Firefox).</p>
+		<p class="description">Filter cutoff may be varied between 20 Hz - 20 kHz. Resonance may be varied up to 1000, which is an enormous value for any hardware resonant filter. This will distort the output of the Web Audio simulation, so to reduce the final output gain a Volume slider is provided (equivalent to register $18 in the SID). Filter modes are low pass, band pass, high pass, notch and all pass in the Web Audio simulation and the oscillator waveforms available are sine, triangle, sawtooth, square and pulse.</p>
+		<div class="g-savetodrive" data-src="cbl.gif" data-filename="cbl.gif" data-sitename="Atkinsoft Web Audio"></div>
+		
+		<!-- <script>
+			function onApiLoad() {
+				gapi.load('auth', {'callback': onAuthApiLoad});
+				gapi.load('picker');
+			}
+			
+			function onAuthApiLoad() {
+				window.gapi.auth.authorize({
+					'client-id': '665814640001-1vd99iiqode7rl6a02hs2bvbneci274v.apps.googleusercontent.com',
+					'scope': ['https://www.googleapis.com/auth/drive']
+				}, handleAuthResult);
+			}
+			
+			var oauthToken;
+			
+			function handleAuthResult(authResult) {
+				if (authResult && !authResult.error) {
+					oauthToken = authResult.access_token;
+					createPicker();
+				}
+			}
+			
+			function createPicker() {
+				var picker = new google.picker.PickerBuilder()
+					.setOAuthToken(oauthToken)
+					'setDeveloperKey('AIzaSyCraZW1ggmt-Iyg8SSOVtse-R8UmW0zEFg')
+					.build();
+				picker.setVisible(true);
+			}
+		</script> -->
+				
+		
 	</div>
+	
+	
 	
 	<div class="webaudiosynth">
 
@@ -124,25 +174,45 @@
 
 			// create synthesizer voice instances
 			
-			var numberOfVoices = 49;
+			var numberOfVoices = 2;
 			
-			// create two Float32Array for PeriodicWave calculations for pulse waveform - could have a pulse waveform calculator object
+			// create two Float32Arrays for PeriodicWave calculations for pulse waveform - calculate once and pass result to individual voices
 			
 			var pulseLength = 4096;
 			var pulseA = new Float32Array(pulseLength);
 			var pulseB = new Float32Array(pulseLength);
 			var pulseWidth = 0.25; // do I need this? when does pulse waveform get set up?
 			
+			var voiceParameters = {
+				'filterFrequency': 84,
+				'resonance': 0,
+				'filterMode': 0,
+				'gain': 25,
+				'coarseTune': [0, 0, 0],
+				'fineTune': [-15, 0, +9],
+				'waveform': [2, 2, 2],
+				'pulseWidth': [32, 32, 32],
+				'oscEnable': [1, 1, 1],
+				'filterEnable': [1, 1, 1],
+				'attack': [0, 0, 0],
+				'decay': [0, 0, 0],
+				'sustain': [15, 15, 15],
+				'release': [0, 0, 0]
+			}
+			
+			
 			var myVoices = [];
 			
-			for (var i = 0; i < numberOfVoices; i++) {
-				myVoices[i] = new synthesizerVoice(context);
-				myVoices[i].setNoteValue(i - 24); // i varies 
-			}
+			// for (var i = 0; i < numberOfVoices; i++) {
+			// 	myVoices[i] = new SynthesizerVoice(context, voiceParameters, i - 24, 0);
+
+			// }
 
 			// define functions for osc enable buttons, coarse tune, fine tune, waveform, pulse width, attack, decay, sustain, release sliders
 			
 			function toggleOscillatorEnable(osc) { // oscillator on / off buttons
+			
+				// voiceParameters.oscEnable[osc] = ;
 			
 				for (var i = 0; i < numberOfVoices; i++) {
 					myVoices[i].toggleOscillatorEnable(osc); // make sure this deals with envelope generators properly
@@ -154,6 +224,7 @@
 				var idText = 'coarse' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
 				
+				voiceParameters.coarseTune[osc] = sliderValue;
 				
 				for (var i = 0; i < numberOfVoices; i++) {
 					myVoices[i].setCoarseTune(osc, sliderValue);
@@ -164,6 +235,8 @@
 				var idText = 'fine' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
 				
+				voiceParameters.fineTune[osc] = sliderValue;
+				
 				for (var i = 0; i < numberOfVoices; i++) {
 					myVoices[i].setFineTune(osc, sliderValue);
 				}
@@ -172,7 +245,9 @@
 			function setWaveform(osc) {
 			
 				var idText = 'waveform' + osc;
-				var sliderValue = document.getElementById(idText).value;
+				var sliderValue = Number(document.getElementById(idText).value);
+				
+				voiceParameters.waveform[osc] = sliderValue;
 				
 				for (var i = 0; i < numberOfVoices; i++) {
 					myVoices[i].setWaveform(osc, sliderValue);
@@ -183,6 +258,8 @@
 			
 				var idText = 'pulsewidth' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
+				
+				voiceParameters.pulseWidth[osc] = sliderValue;
 				
 				// do my pulse width calculation here and pass to the voices
 
@@ -204,8 +281,10 @@
 				var idText = 'attack' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
 				
+				voiceParameters.attack[osc] = sliderValue;
+				
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setAttack(osc, sliderValue / 15);
+					myVoices[i].setAttack(osc, sliderValue);
 				}
 			}
 			
@@ -213,8 +292,10 @@
 				var idText = 'decay' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
 				
+				voiceParameters.decay[osc] = sliderValue;
+				
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setDecay(osc, sliderValue / 15);
+					myVoices[i].setDecay(osc, sliderValue);
 				}
 			}
 			
@@ -222,8 +303,10 @@
                 var idText = 'sustain' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
 
+				voiceParameters.sustain[osc] = sliderValue;
+				
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setSustain(osc, sliderValue / 15);
+					myVoices[i].setSustain(osc, sliderValue);
 				}
 			}
 			
@@ -231,8 +314,10 @@
 				var idText = 'release' + osc;
 				var sliderValue = Number(document.getElementById(idText).value);
 				
+				voiceParameters.release[osc] = sliderValue;
+				
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setRelease(osc, sliderValue / 15);
+					myVoices[i].setRelease(osc, sliderValue);
 				}
 			}
 			
@@ -300,47 +385,37 @@
 			
 			// sequencer code goes here
 			
-			// manually set pitch of second and third voice to something else
+
 			
 			var i = 0;
 			
-			function playNote(i) {
+			function playNote(i, j) {
 			
-				
-				myVoices[i + 24].gateOn();
+				if (myVoices[i]) {
+					myVoices[i].stop();
+				}
+				myVoices[i] = new SynthesizerVoice(context, voiceParameters, j, 0);
+				myVoices[i].start();
+				myVoices[i].gateOn();
 
 				
-				console.log("playing note " + i);
+				console.log("playing note " + j + " on voice " + (i));
 				
 			}
 			
 			function stopNote(i) {
 			
-				myVoices[i + 24].gateOff();
-
-			}
-			
-			function playSemitones() {
-				if (gate == 1) {
-					playNote(i);
-
+				if (myVoices[i]) {
+					myVoices[i].gateOff();
 				}
-				setTimeout(stopSemitones, 500);
+				
+				console.log("stopping note on voice " + (i));
 
 			}
 			
-			function stopSemitones() {
-				if (gate == 1) {
-					stopNote(i);
-					i++;
-					if (i > 24) {
-						i = -24;
-					}
-				}
-				setTimeout(playSemitones, 500);
-			}
-			
-			setTimeout(playSemitones, 1000);
+			playNote(0, 0);
+			playNote(1, 7);
+
 			
 			console.log("finished");
 			
@@ -349,12 +424,10 @@
 			
 			function startStop() {
 			
-				// this should start all voices
+
 				if (started == 0) {
 					started = 1;
-					for (var i = 0; i < numberOfVoices; i++) {
-						myVoices[i].start();
-					}
+
 				}
 				
 				gate = 1 - gate; // global gate value while in testing mode
@@ -367,12 +440,12 @@
 			
 				// this should set cutoff frequency of all voices, value varies from 0 to 120
 				
-				var sliderValue = document.getElementById('cutoff').value;
-				var cutoffFrequency = 20 * Math.pow(2, sliderValue / 12);
-				document.getElementById('cutoffDisplay').innerHTML = cutoffFrequency;
+				var sliderValue = Number(document.getElementById('cutoff').value);
+				voiceParameters.filterFrequency = sliderValue;
+				
 				
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setFilterFrequency(cutoffFrequency);
+					myVoices[i].setFilterFrequency(sliderValue);
 				}
 			}
 			
@@ -380,11 +453,12 @@
 			
 				// this should set resonance of all voices, value varies from -40 to 30
 			
-				var sliderValue = document.getElementById('resonance').value;
-				var resonance = Math.pow(10, sliderValue / 10);
+				var sliderValue = Number(document.getElementById('resonance').value);
 				
+				voiceParameters.resonance = sliderValue;
+
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setResonance(resonance);
+					myVoices[i].setResonance(sliderValue);
 				}
 			}
 			
@@ -392,7 +466,7 @@
 			
 				// this should set filter mode of all voices
 				
-				var sliderValue = document.getElementById('filtertype').value;
+				var sliderValue = Number(document.getElementById('filtertype').value);
 			
 				for (var i = 0; i < numberOfVoices; i++) {
 					myVoices[i].setFilterType(sliderValue);
@@ -404,10 +478,11 @@
 				// this should set gain of all voices, value varies from 0 - 30
 				
 				var sliderValue = Number(document.getElementById('postfiltergain').value);
-				var gain = Math.pow(10, (sliderValue - 30) / 10);
+
+				voiceParameters.gain = sliderValue;
 				
 				for (var i = 0; i < numberOfVoices; i++) {
-					myVoices[i].setPostFilterGain(gain);
+					myVoices[i].setPostFilterGain(sliderValue);
 				}
 			}
 			
