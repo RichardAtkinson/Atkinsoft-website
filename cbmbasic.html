@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!--
+			<link href="normalize.css" rel="stylesheet">
+			-->
+		<link type="text/css" rel="stylesheet" href="atkinsoft.css" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+		<link rel="shortcut icon" href="favicon.ico" />
+
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-55402552-1', 'auto');
+		  ga('require', 'displayfeatures');
+		  ga('send', 'pageview');
+
+		</script>
+		
+	
+		<title>Richard Atkinson</title>
+
+	</head>
+
+	<body>
+		<div class="heading">
+			<h1><a href="index.html">Richard Atkinson</a></h1>
+
+			<ul class="links">
+				<li><a href="webaudio.html">HTML5 Web Audio</a></li>
+				<li><a href="computers.html">8 bit computers</a></li>
+				<li><a href="consoles.html">8 bit consoles</a></li>
+				<li><a href="synthesizers.html">Analogue & digital synthesizers</a></li>
+				<li><a href="devereuxonians.html">Devereux & Onians Productions</a></li>
+
+
+			</ul>
+		
+
+		</div>
+		
+		<div class="content">
+			<h2>CBM BASIC extension tokens</h2>
+<table style="text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2">
+
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 width=64 style='height:15.0pt;width:48pt'>VIC-20</td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'>C64</td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'>plus/4</td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'>C128</td>
+  <td width=64 style='width:48pt'></td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'>Super
+  Expander</td>
+  <td colspan=2 style='mso-ignore:colspan'>Super Expander 64</td>
+  <td>BASIC 3.5</td>
+  <td></td>
+  <td>BASIC 7.0</td>
+  <td colspan=1 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>cc</td>
+  <td>key</td>
+  <td>fe80</td>
+  <td>key</td>
+  <td>f9</td>
+  <td>key</td>
+  <td>f9</td>
+  <td>key</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>cd</td>
+  <td>graphic</td>
+  <td>fe82</td>
+  <td>graphic</td>
+  <td>de</td>
+  <td>graphic</td>
+  <td>de</td>
+  <td>graphic</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>ce</td>
+  <td>scnclr</td>
+  <td>fe83</td>
+  <td>scnclr</td>
+  <td>e8</td>
+  <td>scnclr</td>
+  <td>e8</td>
+  <td>scnclr</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>cf</td>
+  <td>circle</td>
+  <td>fe87</td>
+  <td>circle</td>
+  <td>e2</td>
+  <td>circle</td>
+  <td>e2</td>
+  <td>circle</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d0</td>
+  <td>draw</td>
+  <td>fe89</td>
+  <td>draw</td>
+  <td>e5</td>
+  <td>draw</td>
+  <td>e5</td>
+  <td>draw</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d1</td>
+  <td>region</td>
+  <td colspan=6 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d2</td>
+  <td>color</td>
+  <td>fe81</td>
+  <td>color</td>
+  <td>e7</td>
+  <td>color</td>
+  <td>e7</td>
+  <td>color</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d3</td>
+  <td>point</td>
+  <td colspan=6 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d4</td>
+  <td>sound</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>da</td>
+  <td>sound</td>
+  <td>da</td>
+  <td>sound</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d5</td>
+  <td>char</td>
+  <td>fe88</td>
+  <td>char</td>
+  <td>e0</td>
+  <td>char</td>
+  <td>e0</td>
+  <td>char</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d6</td>
+  <td>paint</td>
+  <td>fe8b</td>
+  <td>paint</td>
+  <td>df</td>
+  <td>paint</td>
+  <td>df</td>
+  <td>paint</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d7</td>
+  <td>rpot</td>
+  <td>fe9c</td>
+  <td>rpot</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>ce02</td>
+  <td>pot</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d8</td>
+  <td>rpen</td>
+  <td>fe9b</td>
+  <td>rpen</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>ce04</td>
+  <td>pen</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>d9</td>
+  <td>rsnd</td>
+  <td colspan=6 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>da</td>
+  <td>rcolr</td>
+  <td>fe97</td>
+  <td>rclr</td>
+  <td>cd</td>
+  <td>rclr</td>
+  <td>cd</td>
+  <td>rclr</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>db</td>
+  <td>rgr</td>
+  <td>fe99</td>
+  <td>rgr</td>
+  <td>cc</td>
+  <td>rgr</td>
+  <td>cc</td>
+  <td>rgr</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>dc</td>
+  <td>rjoy</td>
+  <td>fe9a</td>
+  <td>rjoy</td>
+  <td>cf</td>
+  <td>joy</td>
+  <td>cf</td>
+  <td>joy</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 style='height:15.0pt'>dd</td>
+  <td>rdot</td>
+  <td>fe98</td>
+  <td>rdot</td>
+  <td>d0</td>
+  <td>rdot</td>
+  <td>d0</td>
+  <td>rdot</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=8 style='height:15.0pt;mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe84</td>
+  <td>locate</td>
+  <td>e6</td>
+  <td>locate</td>
+  <td>e6</td>
+  <td>locate</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe85</td>
+  <td>scale</td>
+  <td>e9</td>
+  <td>scale</td>
+  <td>e9</td>
+  <td>scale</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe86</td>
+  <td>box</td>
+  <td>e1</td>
+  <td>box</td>
+  <td>e1</td>
+  <td>box</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe8a</td>
+  <td>gshape</td>
+  <td>e3</td>
+  <td>gshape</td>
+  <td>e3</td>
+  <td>gshape</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe8c</td>
+  <td>sshape</td>
+  <td>e4</td>
+  <td>sshape</td>
+  <td>e4</td>
+  <td>sshape</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe8d</td>
+  <td>tune</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe0a</td>
+  <td>envelope</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe8e</td>
+  <td>filter</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe03</td>
+  <td>filter</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe8f</td>
+  <td>sprdef</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe1d</td>
+  <td>sprdef</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe90</td>
+  <td>tempo</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe05</td>
+  <td>tempo</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe91</td>
+  <td>movspr</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe06</td>
+  <td>movspr</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe92</td>
+  <td>sprcol</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe08</td>
+  <td>sprcolor</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe93</td>
+  <td>sprite</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe07</td>
+  <td>sprite</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe94</td>
+  <td>colint</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe17</td>
+  <td>collision</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe95</td>
+  <td>sprsav</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>fe16</td>
+  <td>sprsav</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe96</td>
+  <td>rbump</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>ce03</td>
+  <td>bump</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe9d</td>
+  <td>rspcol</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>ce07</td>
+  <td>rspcolor</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe9e</td>
+  <td>rsppos</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>ce05</td>
+  <td>rsppos</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=2 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe9f</td>
+  <td>rspr</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+  <td>ce06</td>
+  <td>rsprite</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=8 style='height:15.0pt;mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ce</td>
+  <td>rlum</td>
+  <td colspan=2 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d1</td>
+  <td>dec</td>
+  <td>d1</td>
+  <td>dec</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d2</td>
+  <td>hex$</td>
+  <td>d2</td>
+  <td>hex$</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d3</td>
+  <td>err$</td>
+  <td>d3</td>
+  <td>err$</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d4</td>
+  <td>instr</td>
+  <td>d4</td>
+  <td>instr</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d5</td>
+  <td>else</td>
+  <td>d5</td>
+  <td>else</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d6</td>
+  <td>resume</td>
+  <td>d6</td>
+  <td>resume</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d7</td>
+  <td>trap</td>
+  <td>d7</td>
+  <td>trap</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d8</td>
+  <td>tron</td>
+  <td>d8</td>
+  <td>tron</td>
+ 
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>d9</td>
+  <td>troff</td>
+  <td>d9</td>
+  <td>troff</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>db</td>
+  <td>vol</td>
+  <td>db</td>
+  <td>vol</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>dc</td>
+  <td>auto</td>
+  <td>dc</td>
+  <td>auto</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>dd</td>
+  <td>pudef</td>
+  <td>dd</td>
+  <td>pudef</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ea</td>
+  <td>help</td>
+  <td>ea</td>
+  <td>help</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>eb</td>
+  <td>do</td>
+  <td>eb</td>
+  <td>do</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ec</td>
+  <td>loop</td>
+  <td>ec</td>
+  <td>loop</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ed</td>
+  <td>exit</td>
+  <td>ed</td>
+  <td>exit</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ee</td>
+  <td>directory</td>
+  <td>ee</td>
+  <td>directory</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ef</td>
+  <td>dsave</td>
+  <td>ef</td>
+  <td>dsave</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f0</td>
+  <td>dload</td>
+  <td>f0</td>
+  <td>dload</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f1</td>
+  <td>header</td>
+  <td>f1</td>
+  <td>header</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f2</td>
+  <td>scratch</td>
+  <td>f2</td>
+  <td>scratch</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f3</td>
+  <td>collect</td>
+  <td>f3</td>
+  <td>collect</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f4</td>
+  <td>copy</td>
+  <td>f4</td>
+  <td>copy</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f5</td>
+  <td>rename</td>
+  <td>f5</td>
+  <td>rename</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f6</td>
+  <td>backup</td>
+  <td>f6</td>
+  <td>backup</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f7</td>
+  <td>delete</td>
+  <td>f7</td>
+  <td>delete</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>f8</td>
+  <td>renumber</td>
+  <td>f8</td>
+  <td colspan=1 style='mso-ignore:colspan'>renumber</td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fa</td>
+  <td>monitor</td>
+  <td>fa</td>
+  <td>monitor</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fb</td>
+  <td>using</td>
+  <td>fb</td>
+  <td>using</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fc</td>
+  <td>until</td>
+  <td>fc</td>
+  <td>until</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=4 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fd</td>
+  <td>while</td>
+  <td>fd</td>
+  <td>while</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=8 style='height:15.0pt;mso-ignore:colspan'></td>
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ce08</td>
+  <td>xor</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ce09</td>
+  <td>rwindow</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>ce0a</td>
+  <td>pointer</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe02</td>
+  <td>bank</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe04</td>
+  <td>play</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe09</td>
+  <td>rreg</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe0b</td>
+  <td>sleep</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe0c</td>
+  <td>catalog</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe0d</td>
+  <td>dopen</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe0e</td>
+  <td>append</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe0f</td>
+  <td>dclose</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe10</td>
+  <td>bsave</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe11</td>
+  <td>bload</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe12</td>
+  <td>record</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe13</td>
+  <td>concat</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe14</td>
+  <td>dverify</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe15</td>
+  <td>dclear</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe18</td>
+  <td>begin</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe19</td>
+  <td>bend</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe1a</td>
+  <td>window</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe1b</td>
+  <td>boot</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe1c</td>
+  <td>width</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe1e</td>
+  <td>quit</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe1f</td>
+  <td>stash</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe21</td>
+  <td>fetch</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe23</td>
+  <td>swap</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe24</td>
+  <td>off</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe25</td>
+  <td>fast</td>
+
+ </tr>
+ <tr height=20 style='height:15.0pt'>
+  <td height=20 colspan=6 style='height:15.0pt;mso-ignore:colspan'></td>
+  <td>fe26</td>
+  <td>slow</td>
+
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+  <td width=64 style='width:48pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+		</div>
+
+	</body>
+
+</html>
