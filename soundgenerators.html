@@ -46,7 +46,7 @@
     <div class="content">
 <h2>Sound generators of the 1980s home computers</h1>
 <p>
-This page exists to document some of the less well-known sound generator ICs used in Eighties home computers and games consoles. It is intended that this will grow to become a general repository for obsolete music chip information and applications. Please <a href="mailto:soundgenerators@atkinsoft-removethis.com">email</a> any comments / corrections / files and keep listening!
+This page exists to document some of the sound generator ICs used in 1980s home computers and games consoles. It is intended that this will grow to become a general repository for obsolete music chip information and applications. Please <a href="mailto:soundgenerators@atkinsoft-removethis.com">email</a> any comments / corrections / files and keep listening!
 </p>
 <h3>General Instrument AY-3-8910 / Yamaha YM2149</h3>
 <table>
@@ -60,68 +60,48 @@ This page exists to document some of the less well-known sound generator ICs use
 </tr>
 </table>
 <p>
-The GI AY-3-8910 Programmable Sound Generator family was used in a wide variety of home computers. Originally this family was part of a suite of support chips for the <a href="http://en.wikipedia.org/wiki/General_Instrument_CP1600">GI CP1600</a> series of microprocessors. It was available in three versions, basically package options. The 40 pin DIL 8910 had two 8 bit I/O ports and was used in the original MSX computer specification. The 28 pin 8912 with one I/O port was used in the Amstrad CPC computers and the Sinclair Spectrum 128s. The 24 pin 8913 had no I/O ports and found applications in the Tandy Colour Computer Speech & Sound cartridge. A related chip called the AY-3-8914 was used in the Mattel Intellivision and the Entertainment Computer System (ECS) expansion for the Intellivision.
+The GI AY-3-8910 Programmable Sound Generator family was used in a wide variety of home computers. Originally this family was part of a suite of support chips for the <a href="http://en.wikipedia.org/wiki/General_Instrument_CP1600">GI CP1600</a> series of microprocessors. It was available in three versions, basically package options. The 40 pin DIL 8910 had two 8 bit I/O ports and was used in the original MSX computer specification. The 28 pin 8912 with one I/O port was used in the Amstrad CPC computers and the Sinclair Spectrum 128s. The 24 pin 8913 had no I/O ports and found applications in the Tandy Colour Computer Speech & Sound cartridge. A related chip called the AY-3-8914 was used in the Mattel Intellivision and the AY-3-8917 in the Entertainment Computer System (ECS) expansion for the Intellivision.
 </p>
 <p>
 Yamaha developed a clone of the PSG, known as the YM2149 Software-Controlled Sound Generator, for their range of MSX computers and it also found applications in the Atari STs. Later the SSG was integrated into the S3527 MSX-Engine along with an Intel parallel I/O chip and some other logic for the MSX2 computers.
 </p>
 <p>
-The PSG has 3 channels with 4 bit volume controls and a single envelope generator. Each channel may produce its own square wave tone with 12 bit period control, or a single shared 1 bit noise source with 5 bit period control. The length of the polynomial used in the noise source is unknown.
+The PSG has 3 channels with 4 bit volume controls and a single envelope generator. Each channel may produce its own square wave tone with 12 bit period control, or a single shared 1 bit noise source with 5 bit period control.
 </p>
 <p>
-Curiously, each of the 3 channels is output seperately on the PSG, allowing for stereo effects. The Amstrad computers took advantage of this; however some may prefer the sound of all 3 oscillators playing together in mono. Later Amstrad machines (the Plus models) integrated the PSG and the video hardware into a chip known as the 'ASIC'. A coprocessor was added to control the PSG via DMA, making quite complicated effects possible with little processor intervention.
+Curiously, each of the 3 channels is output separately on the PSG, allowing for stereo effects and three channel effects. The Amstrad computers took advantage of this; however some may prefer the sound of all 3 oscillators playing together in mono. Later Amstrad machines (the Plus models) integrated the PSG and the video hardware into a chip known as the 'ASIC'. A coprocessor was added to control the PSG via DMA, making quite complicated effects possible with little processor intervention.
 </p>
 <p>
 <a href="http://bulba.at.kz/">AY-3-8910, AY-3-8912, YM2149 Homepage</a>
 </p>
-<a href="/datasheets/AY38910.pdf">AY-3-8910 datasheet</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/YM2149.pdf">YM2149 datasheet</a>
-<h3>Texas Instruments SN76489</h3>
-<img src="/images/">
-<p>
-The TI SN76489 Digital Complex Sound Generator has very similar specifications to the GI PSG. It has 3 square wave tone channels with 4 bit volume controls, but only 10 bit period controls. A single noise source has its own 4 bit volume control but may only take on 3 different frequency settings, unless it shares the period of the third tone channel. However there are two different noise timbres (polynomial lengths) available. There is no envelope generator.
-</p>
-<p>
-It found applications in the Acorn BBC home computers and the Sega SG-1000 games console. Because of Sega's backwards compatibility, this meant that there were TI SN76489 cores in later machines from the Mark III and Master System to the Mega Drive, although they were integrated into video chips.
-</p>
-<a href="/datasheets/SN76489.zip">Datasheet</a>
-<h3>Atari CO12294</h3>
-<img src="/images/">
-<p>
-Atari developed the CO12294 POKEY chip in the late Seventies for use in their 8 bit 400/800 home computers. It has four audio channels, 8 potentiometer inputs (for paddles), a keyboard interface and a serial I/O interface. Each audio channel has a 4 bit volume control and can have a variety of 1 bit noise waveforms or pure square waves. The period controls are only 8 bit but pairs of channels may be combined to produce 16 bit periods and there is also a high-pass filter facility. POKEY was also used in the 7800 Ballblazer cartridge.
-</p>
-<p>
-<a href="http://asma.dspaudio.com/">Atari SAP Music Archive</a>
-</p>
-<a href="/datasheets/pokey.pdf">Datasheet</a>
-<h3>Nintendo 2A03</h3>
-<p>
-Still to be written
-</p>
-<p>
-<a href="http://nesdev.parodius.com/2A03/">The Sounds of the 2A03</a>
-</p>
+<a href="/datasheets/AY38910.pdf">AY-3-8910 datasheet</a> / <a href="/datasheets/YM2149.pdf">YM2149 datasheet</a>
 
 <h3>Commodore MOS 6560 / 6561</h3>
+<table>
+<tr>
+<td>
+<img src="/images/MOS6560R101_VIC-I.jpg">
+</td>
+<td>
+<img src="/images/MOS6561RE_VIC-I.jpg">
+</td>
+</tr>
+</table>
+
 <p>
 Section on VIC-I
 </p>
 
-<h3>Commodore MOS 7360</h3>
+<h3>Commodore MOS 7360 / 8360</h3>
+<img src="/images/8360r2.jpg">
 <p>
 Section on TED
 </p>
 
-<h3>Konami 2212</h3>
-<img src="/images/SCC.jpg">
-<p>
-Section on SCC
-</p>
-<a href="/datasheets/">No datasheet yet</a>
-
 <h3>Yamaha YM3526</h3>
 <img src="/images/YM3526.jpg">
 <p>
-The Yamaha YM3526 OPL (FM-Operator Type L) was the bottom of the range in Yamaha's original FM synthesis chip line-up. Note that the name 'FM' is a misnomer; in actual fact the Yamaha chips all use phase modulation (PM) to create their sounds. The chips all operate in the digital domain, using adders, multipliers and look-up tables to achieve the sine wave modulation. In fact OPL has a digital output, and Yamaha made the Y3014 serial DAC to accompany the chip.
+The Yamaha YM3526 OPL (FM-Operator Type L) was the bottom of the range in Yamaha's original FM synthesis chip line-up. Note that the name 'FM' is a misnomer; in actual fact the Yamaha chips all use phase modulation (PM) to create their sounds. The chips all operate in the digital domain, using adders, sine and exponential look-up tables to achieve the sine wave modulation. OPL has a digital output, and Yamaha made the Y3014 serial DAC to accompany the chip.
 </p>
 <p>
 OPL has 9 channels of 2-operator voices, which can be configured as either 9 tone channels or 6 tone channels and 5 'rhythm' sounds. The drum sounds use the same operators as 3 of the tone channels. There are two possible ways of configuring the operators in each channel, referred to by Yamaha as 'algorithms', and only one of them actually involves phase modulation of one operator (the 'carrier') by the other (the 'modulator'). However the first operator can modulate itself in both algorithms, referred to by Yamaha as 'feedback'.
@@ -129,7 +109,110 @@ OPL has 9 channels of 2-operator voices, which can be configured as either 9 ton
 <p>
 OPL saw comparatively few applications in its original form, but later derivatives of the design are found in many devices, from IBM PC-compatibles to arcade games. However, one notable application of OPL was in the Commodore SFX Sound Expander, a peripheral attachment designed in England for use with the Commodore 64 computer.
 </p>
-<a href="/datasheets/ym3526.pdf">YM3526 datasheet</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/YM3014B.PDF">Y3014 datasheet</a>
+<a href="/datasheets/ym3526.pdf">YM3526 datasheet</a> / <a href="/datasheets/YM3014B.PDF">Y3014 datasheet</a>
+
+<h3>Atari CO12294</h3>
+<img src="/images/220px-POKEY_chip_on_an_Atari_130XE_motherboard.jpg">
+<p>
+Atari developed the CO12294 POKEY chip in 1978 for use in their 8 bit 400/800 home computers. It has four audio channels, 8 potentiometer inputs (for paddles), a keyboard interface and a serial I/O interface. Each audio channel has a 4 bit volume control and can have a variety of 1 bit noise waveforms or pure square waves. The period controls are only 8 bit but pairs of channels may be combined to produce 16 bit periods and there is also a high-pass filter facility. POKEY was also used in the 7800 Ballblazer cartridge.
+</p>
+<p>
+<a href="http://asma.dspaudio.com/">Atari SAP Music Archive</a>
+</p>
+<a href="/datasheets/pokey.pdf">Datasheet</a>
+
+<h3>Yamaha Y8950</h3>
+<img src="/images/y8950.jpg">
+<p>
+The Yamaha Y8950 MSX-AUDIO was designed specifically for MSX computers. Occupying a 64 pin shrink-DIP package, this chip was expensive for manufacturers to use in computers; consequently the chip was only made "optional" for the MSX2 standard, and it was never included in an MSX2 machine. Panasonic and Toshiba made expander cartridges using Y8950. In the Netherlands, Philips used MSX-AUDIO in their Music Module along with a MIDI UART. This proved fairly popular, as it provided functions similar to the much more expensive Yamaha FM Sound Synthesizer Units without requiring a Yamaha MSX.
+</p>
+<p>
+The chip is based on YM3526 with some additional registers for a non-velocity sensitive keyboard interface and a digital sample record / replay capability using 4 bit ADPCM. Only the Philips FM cartridge fully implemented these features.
+</p>
+<a href="/datasheets/Y8950.pdf">Datasheet</a> / <a href="/datasheets/y8950am.pdf">Application manual</a> / <a href="/datasheets/y8950.txt">Note from the MSX mailing list</a>
+
+<h3>Yamaha YM2413</h3>
+<img src="/images/ym2413.png">
+<p>
+The YM2413 OPLL (FM-Operator Type LL) was Yamaha's lowest cost FM synthesizer chip. It was based on the OPLII core, but cost-reduced in a number of ways. It was, and still is, available in 18 pin DIP and 24 pin SO packages, making it much cheaper than MSX-AUDIO. It was used in a number of Yamaha Portasound home keyboards, including the PSS-170 and the PSR-6. Panasonic made a cut-down version of their original MSX-AUDIO cartridge, which also included battery-backed SRAM, called the FM Pana Amusement Cartridge (FM-PAC). Later the FM part of the cartridge was included in MSX2+ computers and the standard became known as MSX-MUSIC.
+</p>
+<p>
+The chip has nine channels and can operate in 9 tone or 6 tone and 5 rhythm modes, just like OPL and OPLII. It has two waveforms, sine and half-sine, and an integrated 9 bit DAC and S/H circuits, negating the need for a separate serial DAC. Note that the sound quality is better than 9 bits would suggest, as each channel is output individually in a sequence of time-slots, rather than being summed and output together. With appropriate filtering, this is equivalent to a 12 bit DAC being used in a final summation system.
+</p>
+<p>
+The big difference between YM2413 and the more expensive chips is in the register file; there is only enough room for one programmable sound. Each channel may select between this or fifteen fixed timbres held in an "instruments ROM". The envelope settings for the drum sounds are also preset, and some of the controls have fewer bits of precision than the previous chips. Despite this, some of the best FM computer music has been written for this chip, on both the MSX computers and the Japanese Sega Mark III (Master System), for which an FM sound expander was also made.
+</p>
+<a href="/datasheets/YM2413B(-F).pdf">Datasheet</a> / <a href="/datasheets/YM2413.ZIP">Application manual</a>
+
+<h3>Konami 2212 SCC</h3>
+<img src="/images/SCC.jpg">
+<p>
+Section on SCC
+</p>
+<a href="/datasheets/">No datasheet yet</a>
+
+<h3>Yamaha YMF281</h3>
+<img src="/images/ymf281b.jpg">
+<p>
+YMF281 is a nine voice two operator FM sound chip similar to YM2413 and with the same pinout. The difference is in the Instruments ROM. It has fifteen preset instruments, twelve of which are different from the ones in YM2413, and one programmable tone like the YM2413. 
+</p>
+<table border="1" cellpadding="2" cellspacing="2">
+<tr>
+<td>#</td><td>YM2413</td><td>YMF281</td>
+</tr>
+<tr>
+<td>0</td><td>Programmable tone</td><td>Programmable tone</td>
+</tr>
+<tr>
+<td>1</td><td>Violin</td><td>Electric strings</td>
+</tr>
+<tr>
+<td>2</td><td>Guitar</td><td>Bow wow</td>
+</tr>
+<tr>
+<td>3</td><td>Piano</td><td>Electric guitar</td>
+</tr>
+<tr>
+<td>4</td><td>Flute</td><td>Organ</td>
+</tr>
+<tr>
+<td>5</td><td>Clarinet</td><td>Clarinet</td>
+</tr>
+<tr>
+<td>6</td><td>Oboe</td><td>Saxophone</td>
+</tr>
+<tr>
+<td>7</td><td>Trumpet</td><td>Trumpet</td>
+</tr>
+<tr>
+<td>8</td><td>Organ</td><td>Street organ</td>
+</tr>
+<tr>
+<td>9</td><td>Horn</td><td>Synth brass</td>
+</tr>
+<tr>
+<td>10</td><td>Synthesizer</td><td>Electric piano</td>
+</tr>
+<tr>
+<td>11</td><td>Harpsichord</td><td>Bass</td>
+</tr>
+<tr>
+<td>12</td><td>Vibraphone</td><td>Vibraphone</td>
+</tr>
+<tr>
+<td>13</td><td>Synthesizer bass</td><td>Chime</td>
+</tr>
+<tr>
+<td>14</td><td>Acoustic bass</td><td>Tom tom II</td>
+</tr>
+<tr>
+<td>15</td><td>Electric guitar</td><td>Noise</td>
+</tr>
+</table>
+<p>
+<a href="http://madscient.hatenablog.jp/entry/2014/08/22/010933">Site by madscient about YM2413 and YMF281 (in Japanese)</a> / <a href="http://plaza29.mbn.or.jp/~illcity/msx/ymf281.htm">MSX turbo-R A1-ST sound source (YM2413 > YMF281)</a>
+</p>
+
 
 <h3>Yamaha YM2151</h3>
 <img src="/images/ym2151.png">
@@ -137,88 +220,25 @@ OPL saw comparatively few applications in its original form, but later derivativ
 The Yamaha YM2151 OPM (FM-Operator Type M) was the mid-range offering in Yamaha's line-up. It has a stereo digital output, using the YM3012 dual serial DAC. The chip has 8 channels of 4-operator voices, and the fourth operator of the eighth channel can also be configured as a noise source. This is used to make drum sounds.
 </p>
 <p>
-This chip was used in Sega System 16 arcade machines (including Fantasy Zone and Out Run) and the Yamaha SFG-01 FM Sound Synthesizer Unit for MSX computers. The eight algorithms are the same as those used in Yamaha's 4-operator FM synthesizer keyboards and MIDI expanders.
+This chip was used in Sega System 16 arcade machines (such as Fantasy Zone and Out Run) and the Yamaha SFG-01 FM Sound Synthesizer Unit for MSX computers. The eight algorithms are the same as those used in Yamaha's 4-operator FM synthesizer keyboards and MIDI expanders.
 </p>
-<a href="/datasheets/YM2151.pdf">Datasheet</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/ym2151docs.pdf">Application manual</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/ym2151.txt">Jarek Burczynski's note from the Mame source</a>
-<h3>Yamaha Y8950</h3>
-<img src="/images/y8950.jpg">
-<p>
-The Yamaha Y8950 MSX-AUDIO was designed specifically for MSX computers, but found few applications in its domestic market. Occupying a 64 pin shrink-DIP package, this chip was expensive for manufacturers to use in computers; consequently the chip was only made "optional" for the MSX2 standard, and it was never included in an MSX2 machine. Panasonic and Toshiba made expander cartridges using Y8950, but these had poor software support. In the Netherlands, however, Philips used MSX-AUDIO in their Music Module along with a MIDI UART. This proved fairly popular, as it provided functions similar to the much more expensive Yamaha FM Sound Synthesizer Units without requiring a Yamaha MSX.
-</p>
-<p>
-The chip is based on YM3526 with some additional registers for a non-velocity sensitive keyboard interface and a digital sample record / replay capability using 4 bit ADPCM. Only the Philips FM cartridge fully implemented these features.
-</p>
-<a href="/datasheets/Y8950.pdf">Datasheet</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/y8950am.pdf">Application manual</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/y8950.txt">Richard Atkinson's note from the MSX mailing list</a>
+<a href="/datasheets/YM2151.pdf">Datasheet</a> / <a href="/datasheets/ym2151docs.pdf">Application manual</a> / <a href="/datasheets/ym2151.txt">Jarek Burczynski's note from the Mame source</a>
 
-<h3>Yamaha YM3812</h3>
-<img src="/images/ym3812.png">
-<p>
-The Yamaha YM3812 OPL2 (FM-Operator Type L2) was an incremental upgrade on the YM3526, but found widespread use due to its inclusion in the AdLib and subseqent SoundBlaster standards for IBM PC-compatibles. Indeed, the computer you are using at the moment may well contain an OPL2 core of some sort, possibly integrated into the South Bridge of the motherboard's chipset.
-</p>
-<p>
-The chip is pin-compatible with YM3526 and uses the same serial DAC. It adds waveform select registers for all eighteen operators, allowing three additional functions (derived from the same look-up table as the original sine function) to be used. There is also an OPL2-enable bit to prevent erroneous accesses to the new registers by old software.
-</p>
-<p>
-<a href="http://www.astercity.net/~malf/">FM Synthesis Heaven</a>
-</p>
-<a href="/datasheets/ym3812.pdf">Datasheet</a>
 
-<h3>Yamaha YM2413</h3>
-<img src="/images/ym2413.png">
-<p>
-The YM2413 OPLL (FM-Operator Type LL) was a low-cost FM synthesizer chip intended for the Japanese Character and Pattern Telephone Access Information Network (CAPTAIN). It was based on the OPL2 core, but cost-reduced in a number of ways. It was, and still is, available in 18 pin DIP and 24 pin SO packages, making it much cheaper than MSX-AUDIO. Unfortunately, Yamaha won't sell them in quantities less than 1000, even for research purposes! Panasonic made a cut-down version of their original MSX-AUDIO cartridge, which also included battery-backed SRAM, and the FM Pana Amusement Cartridge (FM-PAC) sold well. Later the FM part of the cartridge was included in MSX2+ computers and the standard became known as MSX-MUSIC.
-</p>
-<p>
-The chip has nine channels and can operate in 9 tone or 6 tone and 5 rhythm modes, just like OPL and OPL2. It has two waveforms, sine and half-sine, and an integrated 9 bit DAC and S/H circuits, negating the need for a seperate serial DAC. Note that the sound quality is better than 9 bits would suggest, as each channel is output individually in a sequence of time-slots, rather than being summed and output together. With appropriate filtering, this is equivalent to a 12 bit DAC being used in a final summation system.
-</p>
-<p>
-The big difference between YM2413 and the more expensive chips is in the register file; there is only enough room for one programmable sound. Each channel may select between this or fifteen fixed timbres held in an "instruments ROM". The envelope settings for the drum sounds are also preset, and some of the controls have fewer bits of precision than the previous chips. Despite this, some of the best FM computer music has been written for this chip, on both the MSX computers and the Japanese Sega Master System (Mark III), for which an FM sound expander was also made.
-</p>
-<a href="/datasheets/YM2413B(-F).pdf">Datasheet</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/YM2413.ZIP">Application manual</a>
-
-<h3>Yamaha YMF281</h3>
-<img src="/images/ymf281b.jpg">
-<p>
-
-</p>
-<p>
-<a href="http://plaza29.mbn.or.jp/~illcity/msx/ymf281.htm">MSX turbo-R A1-ST sound source (YM2413 > YMF281)</a>
-</p>
-<a href="/datasheets/">No datasheet yet</a>
-
-<h3>Yamaha YM2203</h3>
-<img src="/images/ym2203.png">
-<p>
-The Yamaha YM2203 OPN (FM-Operator Type N) was an enhancement on the YM2149 SSG, adding FM synthesis capabilities to the square waves and I/O ports of the SSG. It requires a seperate serial DAC for the FM part. Three 4-operator voices with 8 algorithms are provided. Voice 3 has a special capability in that the frequencies of all 4 operators may be specified individually, rather than using the normal multiple system. This chip was used in some arcade machines.
-</p>
-<a href="/datasheets/ym2203.pdf">Datasheet</a>
-
-<h3>Yamaha YM2612</h3>
-<img src="/images/ym2612.png">
-<p>
-The Yamaha YM2612 OPN(2) contains the FM parts of two YM2203 OPN, without the SSG parts. It has six 4-operator voices with 8 algorithms. Voices 3 and 6 have additional capabilities. The frequencies may be specified individually for each of the operators in voice 3, allowing a wider range of enharmonic, dissonant timbres, and voice 6 may be replaced with an 8 bit fixed digital output, allowing rather CPU-intensive sample replay. Unlike OPN this chip does not require seperate serial DACs, having two analogue outputs. This allowed Sega to claim "digital stereo sound" in the Mega Drive console.
-</p>
-<a href="/datasheets/">No Datasheet yet</a> / <a href="/web/20121006135904/http://www.srcf.ucam.org/~rga24/computer/music/datasheets/ym2612.txt">Charles MacDonald's note from the segadev mailing list</a>
-
-<h3>Yamaha YMF262</h3>
-<img src="/images/ymf262.png">
-<p>
-The Yamaha YMF262 OPL3 (FM-Operator Type L3) was a further enhancement on the OPL2 design. It had the capabilities of two YM3812, as it was designed as a compatible replacement for the twin OPL2 arrangement in the first SoundBlaster Pro cards. In fact the chip is capable of four channel output, using two of the YAC512 stereo serial DACs designed to accompany it, but most applications feature only two channels.
-</p>
-<p>
-The chip can operate in 18 2-operator tone or 15 2-operator tone and 5 rhythm modes. Additionally, when the OPL3-enable bit is set, up to 6 pairs of 2-operator voices may be combined to produce 4-operator voices with 4 algorithms. Unfortunately two of the algorithms can be simulated in 2-operator mode using pairs of voices set to the same frequency, so the range of extra timbres available is not as wide as 4 operators would suggest. The number of available waveforms, however, increases in OPL3 mode to eight.
-</p>
-<a href="/datasheets/YMF262.PDF">Datasheet</a>
 
 <h3>Yamaha YM2164</h3>
 <img src="/images/ym2164.jpg">
 <p>
-The Yamaha YM2164 OPP was used in the Yamaha SFG-05 FM Sound Synthesizer Unit II and the Korg 707 keyboard synthesizer. I believe it is an improved version of the YM2151 OPM, compatible with YM2151 software. I am very keen to find a datasheet for this chip. If you have one, please <a href="mailto:rga24@removethis.cantab.net">let me know!</a>
+The Yamaha YM2164 OPP was used in the Yamaha SFG-05 FM Sound Synthesizer Unit II, the Yamaha FB01 MIDI expander module, the Yamaha DX21, DX27 and DX100 synthesizers and the Korg 707 and DS8 synthesizers. I believe it is an improved version of the YM2151 OPM, compatible with YM2151 software. I am very keen to find a datasheet for this chip. If you have one, please <a href="mailto:soundgenerators@atkinsoft-removethis.com">let me know!</a>
 </p>
 <a href="/datasheets/">No datasheet yet</a>
 
+
+
+
+
 <h3>Yamaha YMF278</h3>
-<img src="/images/">
+<img src="/images/yamaha_opl4_synth_ymf278b.jpg">
 <p>
 The Yamaha YMF278 OPL4 ... use the YAC513 DAC ...
 </p>
@@ -227,35 +247,129 @@ Reference to MoonSound.
 </p>
 <a href="/datasheets/ymf278b.pdf">YMF278 datasheet</a> / <a href="/datasheets/opl4.pdf">YMF278 application manual</a> / <a href="/datasheets/yac513.pdf">YAC513 datasheet</a>
 
-<h3>Modern FM synthesizers</h3>
-<p>
-Due to the popularity of mobile phone "ringtones", Yamaha have developed some modern highly-integrated chips including onboard FM synthesizers. These are already popular in Japan, and will hopefully find their way over to the West very soon. The FM capabilities are very close to those of Yamaha's older chips. Please email me if you have any more detailed information on these chips.
-</p>
-<h3>Yamaha YMU757B</h3>
-<p>
-The Yamaha YMU757B MA-1C (Mobile Audio 1C) is capable of 4 simultaneous 2-operator voices. There are 2 waveforms for the operators. This chip has capabilities very similar to the YM2413 OPLL. The datasheet describes the following register settings for each operator:
-<ul>
-<li><tt>ML[2-0] </tt>Multiple</li>
-<li><tt>VIB </tt>Vibrato (on / off)</li>
-<li><tt>EGT </tt>Envelope type (damped / sustained)</li>
-<li><tt>SUS </tt>Sustain (on / off)</li>
-<li><tt>RR[3-0] </tt>Release rate</li>
-<li><tt>DR[3-0] </tt>Decay rate</li>
-<li><tt>AR[3-0] </tt>Attack rate</li>
-<li><tt>SL[3-0] </tt>Sustain level</li>
-<li><tt>TL[5-0] </tt>Total level (volume)</li>
-<li><tt>WAV </tt>Waveform (sine / rectified sine)</li>
-<li><tt>FL[2-0] </tt>Feedback level</li>
-</ul>
-</p>
 
 
-<a href="/datasheets/ymu757b.pdf">YMU757B datasheet</a>
-<h3>Yamaha YMU759B</h3>
+
+<h3>Yamaha YM3812</h3>
+<img src="/images/ym3812.png">
 <p>
-The Yamaha YMU759B MA-2 (Mobile Audio 2) is capable of 16 simultaneous 2-operator voices or 8 4-operator voices. There are 8 waveforms for the operators.
+The Yamaha YM3812 OPLII (FM-Operator Type LII) was an incremental upgrade on the YM3526, but found widespread use due to its inclusion in the AdLib and subseqent SoundBlaster standards for IBM PC-compatibles. Indeed, the computer you are using at the moment may well contain an OPLII core of some sort, possibly integrated into the South Bridge of the motherboard's chipset. It was also used in a number of Yamaha Portasound home keyboards, including the PSS-470 and PSS-570.
 </p>
-<a href="/datasheets/ymu759b.pdf">YMU759B datasheet</a>
+<p>
+The chip is pin-compatible with YM3526 and uses the same serial DAC. It adds waveform select registers for all eighteen operators, allowing three additional functions (derived from the same look-up table as the original sine function) to be used. There is also an OPLII-enable bit to prevent erroneous accesses to the new registers by old software.
+</p>
+<p>
+<a href="http://www.astercity.net/~malf/">FM Synthesis Heaven</a>
+</p>
+<a href="/datasheets/ym3812.pdf">Datasheet</a>
+
+<h3>Yamaha YMF262</h3>
+<img src="/images/ymf262.png">
+<p>
+The Yamaha YMF262 OPL3 (FM-Operator Type L3) was a further enhancement on the OPLII design. It had the capabilities of two YM3812, as it was designed as a compatible replacement for the twin OPLII arrangement in the first SoundBlaster Pro cards. In fact the chip is capable of four channel output, using two of the YAC512 stereo serial DACs designed to accompany it, but most applications feature only two channels.
+</p>
+<p>
+The chip can operate in 18 2-operator tone or 15 2-operator tone and 5 rhythm modes. Additionally, when the OPL3-enable bit is set, up to 6 pairs of 2-operator voices may be combined to produce 4-operator voices with 4 algorithms. Unfortunately two of the algorithms can be simulated in 2-operator mode using pairs of voices set to the same frequency, so the range of extra timbres available is not as wide as 4 operators would suggest. The number of available waveforms increases in OPL3 mode to eight.
+</p>
+<a href="/datasheets/YMF262.PDF">Datasheet</a>
+
+
+
+
+<h3>Yamaha YM2203</h3>
+<img src="/images/ym2203.jpg">
+<p>
+The Yamaha YM2203 OPN (FM-Operator Type N) was an enhancement on the YM2149 SSG, adding FM synthesis capabilities to the square waves and I/O ports of the SSG. It requires a separate serial DAC for the FM part. Three 4-operator voices with 8 algorithms are provided. Voice 3 has a special capability in that the frequencies of all 4 operators may be specified individually, rather than using the normal multiple system. This chip was used in some arcade machines.
+</p>
+<a href="/datasheets/ym2203.pdf">Datasheet</a>
+
+
+
+
+
+
+
+<h3>Texas Instruments SN76489</h3>
+<img src="/images/SN76489.jpg">
+<p>
+The TI SN76489 Digital Complex Sound Generator has very similar specifications to the GI PSG. It has 3 square wave tone channels with 4 bit volume controls, but only 10 bit period controls. A single noise source has its own 4 bit volume control but may only take on 3 different frequency settings, unless it shares the period of the third tone channel. However there are two different noise timbres (polynomial lengths) available. There is no envelope generator.
+</p>
+<p>
+It found applications in the Acorn BBC home computers and the Sega SG-1000 games console. Because of Sega's backwards compatibility, this meant that there were TI SN76489 cores in later machines from the Mark III and Master System to the Mega Drive, integrated into video chips.
+</p>
+<a href="/datasheets/SN76489.zip">Datasheet</a>
+
+<h3>Yamaha YM2612</h3>
+<img src="/images/ym2612.png">
+<p>
+The Yamaha YM2612 OPN(2) contains the FM parts of two YM2203 OPN, without the SSG parts. It has six 4-operator voices with 8 algorithms. Voices 3 and 6 have additional capabilities. The frequencies may be specified individually for each of the operators in voices 3 and 6, allowing a wider range of enharmonic, dissonant timbres, and voice 6 may be replaced with an 8 bit fixed digital output, allowing rather CPU-intensive sample replay. Unlike OPN this chip does not require separate serial DACs, having two analogue outputs. This allowed Sega to claim "digital stereo sound" in the Mega Drive console.
+</p>
+<p>
+In my opinion the best FM music of all time is on this chip. There are countless examples of good music on the Mega Drive, from the early tunes in the machine's launch titles in 1988 which clearly use sounds from Yamaha's FM patch library, to tunes made late in the machine's life when the OPN chip had been thoroughly explored.
+</p>
+<a href="http://gendev.spritesmind.net/forum/viewtopic.php?t=386">Forum post on YM2612</a> / <a href="/datasheets/ym2612.txt">Charles MacDonald's note from the segadev mailing list</a>
+
+
+
+<h3>Nintendo 2A03 / 2A07</h3>
+<table>
+<tr>
+<td>
+<img src="/images/RP2A03G.jpg">
+</td>
+<td>
+<img src="/images/Ricoh_2a07.jpg">
+</td>
+</tr>
+</table>
+<p>
+Ricoh RP2A03 is the combined CPU, audio and controller port chip made for the Nintendo Family Computer / Nintendo Entertainment System. It contains a copy of the MOS Technology 6502 microprocessor, sound channels and address decoders for the controller ports. The 6502 core is almost an exact copy, except for one change which prevents the decimal mode bit from working properly. Decimal mode was the only patented feature of the 6502, and in 1983 this was the only intellectual property right Nintendo had to work around in order to copy the 6502 without paying any royalties.
+</p>
+<p>
+The sound channels consist of two almost identical pulse wave channels with 12.5%, 25%, 50% and 75% settings, a 4 bit triangle wave channel, a 1 bit noise channel and a 7 bit PCM channel with direct and 6 bit DPCM modes. The pulse channels and noise channel have 4 bit volume controls and there are also pitch sweep controls for the pulse channels.
+</p>
+<p>
+The 2A03 chip was made to work in NTSC systems with a 21.477 MHz clock frequency (NTSC colour subcarrier frequency multiplied by six). The chip divides this frequency by twelve to produce the CPU clock of 1.79 MHz. PAL systems use the Ricoh RP2A07 chip which is designed to work with a 26.6017 MHz clock frequency (PAL colour subcarrier frequency multiplied by six). The 2A07 chip divides this frequency by sixteen to produce the CPU clock of 1.66 MHz. The sound channels are also generated from the CPU clocks, with the result that the same register settings will sound lower on a PAL 2A07 than on an NTSC 2A03. PAL versions of NES games are usually programmed to compensate for this.
+</p>
+<p>
+<a href="http://nesdev.parodius.com/2A03/">The Sounds of the 2A03</a>
+</p>
+
+<h3>Nintendo 2C33</h3>
+<img src="/images/RP2C33_01.jpg">
+<p>
+Section on Famicom Disk System sound
+</p>
+
+<h3>Nintendo MMC5</h3>
+<img src="/images/MMC5_-_Laser_Invasion.jpg">
+<p>
+Section on MMC5 sound
+</p>
+
+<h3>Konami VRC VI</h3>
+<img src="/images/Vrc6.jpg">
+<p>
+Section on VRC VI
+</p>
+
+<h3>Konami VRC VII</h3>
+<img src="/images/KVRC7.jpg">
+<p>
+Section on VRC VII
+</p>
+
+<h3>Namco 163</h3>
+<img src="/images/163x17.jpg">
+<p>
+Section on N163
+</p>
+
+<h3>Sunsoft 5B</h3>
+<img src="/images/Sunsoft_5B.jpg">
+<p>
+Section on Sunsoft 5B
+</p>
 
 
 	</div>
